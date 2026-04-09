@@ -1,345 +1,602 @@
 <!DOCTYPE html>
-<!-- saved from url=(0038)https://www.relatoriostea.com.br/nota/ -->
-<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Evolução Clínica - CENTRO TEA</title>
-    <script src="./Gerador de Evolução Clínica - CENTRO TEA_files/saved_resource"></script>
-    <!-- Fontes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./Gerador de Evolução Clínica - CENTRO TEA_files/css2" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Um tom levemente mais azulado que slate-50 */
-        }
-        
-        /* Checkbox oculto, estilização baseada no estado :checked no pai */
-        .option-checkbox:checked + div {
-            background-color: #e0e7ff; /* indigo-100 */
-            border-color: #6366f1; /* indigo-500 */
-            color: #312e81; /* indigo-900 */
-            font-weight: 500;
-        }
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolução Clínica – Clínica Empathy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
 
-        .option-checkbox:checked + div svg {
-            opacity: 1;
-            transform: scale(1);
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
 
-        /* Animação suave para os painéis */
-        .section-content {
-            transition: all 0.3s ease-in-out;
-            overflow: hidden;
-        }
-        
-        .spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border-left-color: #ffffff;
-            animation: spin 1s ease infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+:root {
+  --c-bg:       #F9F5FF;
+  --c-surface:  #FFFFFF;
+  --c-border:   #EAD9FB;
+  --c-border-2: #D8C5F5;
+  --c-ink:      #1A1028;
+  --c-ink-2:    #4E3D6A;
+  --c-ink-3:    #8B7BA0;
+  --c-primary:  #7C3AED;
+  --c-primary-h:#6D28D9;
+  --c-accent:   #EC4899;
+  --c-chip-bg:  #F5F0FF;
+  --c-danger:   #EF4444;
+  --c-success:  #059669;
+  --radius-sm:  8px;
+  --radius:     12px;
+  --radius-lg:  18px;
+  --shadow-sm:  0 1px 4px rgba(124,58,237,.07);
+  --shadow:     0 4px 20px rgba(124,58,237,.09);
+  --shadow-lg:  0 8px 40px rgba(124,58,237,.14);
+  --font: 'Plus Jakarta Sans', sans-serif;
+}
 
-        #result {
-            font-family: 'Lora', serif;
-            line-height: 1.8;
-            color: #1e293b; /* slate-800 */
-        }
-        
-        /* Estilização para impressão */
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; }
-            #resultContainer { border: none; box-shadow: none; }
-        }
-    </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.top-0{top:0px}.top-24{top:6rem}.z-10{z-index:10}.z-50{z-index:50}.col-span-2{grid-column:span 2 / span 2}.mx-auto{margin-left:auto;margin-right:auto}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:0.25rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-16{height:4rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-8{height:2rem}.h-full{height:100%}.max-h-\[80vh\]{max-height:80vh}.min-h-\[400px\]{min-height:400px}.w-16{width:4rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-8{width:2rem}.w-full{width:100%}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-6{gap:1.5rem}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.whitespace-pre-wrap{white-space:pre-wrap}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-b-xl{border-bottom-right-radius:0.75rem;border-bottom-left-radius:0.75rem}.rounded-t-xl{border-top-left-radius:0.75rem;border-top-right-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229 / var(--tw-border-opacity, 1))}.border-red-100{--tw-border-opacity:1;border-color:rgb(254 226 226 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-indigo-700{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.bg-indigo-800{--tw-bg-opacity:1;background-color:rgb(55 48 163 / var(--tw-bg-opacity, 1))}.bg-orange-100{--tw-bg-opacity:1;background-color:rgb(255 237 213 / var(--tw-bg-opacity, 1))}.bg-purple-100{--tw-bg-opacity:1;background-color:rgb(243 232 255 / var(--tw-bg-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-teal-100{--tw-bg-opacity:1;background-color:rgb(204 251 241 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-6{padding-bottom:1.5rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-indigo-200{--tw-text-opacity:1;color:rgb(199 210 254 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-900{--tw-text-opacity:1;color:rgb(49 46 129 / var(--tw-text-opacity, 1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-teal-600{--tw-text-opacity:1;color:rgb(13 148 136 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-50{opacity:0.5}.opacity-80{opacity:0.8}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-200{transition-duration:200ms}.ease-in-out{transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1)}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:text-indigo-600:hover{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.hover\:text-red-600:hover{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.hover\:shadow-xl:hover{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.focus\:border-indigo-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-4:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity, 1))}.focus\:ring-indigo-300:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(165 180 252 / var(--tw-ring-opacity, 1))}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.focus\:ring-orange-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(249 115 22 / var(--tw-ring-opacity, 1))}.focus\:ring-purple-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(168 85 247 / var(--tw-ring-opacity, 1))}.focus\:ring-red-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(239 68 68 / var(--tw-ring-opacity, 1))}.focus\:ring-teal-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(20 184 166 / var(--tw-ring-opacity, 1))}.group:hover .group-hover\:translate-x-1{--tw-translate-x:0.25rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:col-span-3{grid-column:span 3 / span 3}.sm\:inline{display:inline}.sm\:w-1\/2{width:50%}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.sm\:p-6{padding:1.5rem}.sm\:text-base{font-size:1rem;line-height:1.5rem}}@media (min-width: 1024px){.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:col-span-7{grid-column:span 7 / span 7}.lg\:mt-0{margin-top:0px}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:gap-10{gap:2.5rem}.lg\:p-8{padding:2rem}}</style></head>
-<body class="text-slate-700 antialiased">
+body {
+  font-family: var(--font);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-    <!-- Navbar simples -->
-    <nav class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
-                <h1 class="text-xl font-bold tracking-tight">CENTRO TEA <span class="font-normal opacity-80 text-sm hidden sm:inline">| Gerador de Evolução</span></h1>
-            </div>
-            <div class="text-xs text-indigo-200 bg-indigo-800 px-3 py-1 rounded-full">Desenvolvido por Rodrigo Silva</div>
-        </div>
-    </nav>
+/* ── NAV ── */
+.nav {
+  height: 56px;
+  background: linear-gradient(120deg, #3B0764 0%, #6D28D9 55%, #9D174D 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 16px rgba(76,29,149,.3);
+}
 
-    <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
-            
-            <!-- Coluna Esquerda: Formulário (Ocupa 7 colunas no desktop) -->
-            <div class="lg:col-span-7 space-y-6">
-                
-                <!-- Card Data -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <label for="sessionDate" class="block text-sm font-semibold text-slate-700 mb-2">Data da Sessão</label>
-                    <input type="date" id="sessionDate" name="sessionDate" class="w-full sm:w-1/2 p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                </div>
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
 
-                <form id="checklistForm" class="space-y-4">
-                    
-                    <!-- 1. Condições de Chegada -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">1. Condições de Chegada</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6">
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                <!-- Helper function will generate these to keep HTML clean, strictly for example here -->
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Calmo" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Calmo</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Colaborativo" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Colaborativo</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Agitado" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Agitado</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Choroso" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Choroso</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Resistência à entrada" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Resistência</span>
-                                    </div>
-                                </label>
-                                 <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="condicoes_chegada" value="Sonolento" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center flex flex-col items-center justify-center h-full gap-2">
-                                        <span>Sonolento</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative col-span-2 sm:col-span-3">
-                                    <input type="checkbox" name="condicoes_chegada" value="Acompanhado por responsável engajado" class="peer sr-only option-checkbox">
-                                    <div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-left px-4">
-                                        <span>Responsável engajado</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <textarea name="obs_condicoes_chegada" class="mt-4 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Observações adicionais sobre a chegada..."></textarea>
-                        </div>
-                    </div>
+.nav-logo-mark {
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
 
-                    <!-- 2. Atividades -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-purple-100 p-2 rounded-lg text-purple-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">2. Atividades Desenvolvidas</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6 hidden"> <!-- Starts hidden for simpler UI -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Jogos de turnos" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Jogos de turnos</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividades motoras grossas" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Motoras grossas</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividades motoras finas" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Motoras finas</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividades de linguagem (ecoico, mando, tato)" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Linguagem / Verbal</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Leitura / Escrita" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Leitura / Escrita</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividade lúdica dirigida" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Lúdica dirigida</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividade musical" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Musicalização</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="atividades" value="Atividade de habilidades sociais" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Habilidades Sociais</div></label>
-                            </div>
-                            <textarea name="obs_atividades" class="mt-4 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Detalhes das atividades..."></textarea>
-                        </div>
-                    </div>
+.nav-name {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
 
-                    <!-- 3. Comportamentos -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-orange-100 p-2 rounded-lg text-orange-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">3. Comportamento &amp; Estratégias</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6 hidden">
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 mt-1">Comportamentos</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Engajado na maior parte" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Engajado (Maior parte)</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Baixa atenção / distração" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Baixa atenção</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Estereotipias motoras" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Estereotipias motoras</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Ecolalia" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Ecolalia</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Comportamento opositor" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Opositor / Resistente</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Crises de choro" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Crises de choro</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Comportamento agressivo" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm border-red-100 hover:bg-red-50 text-red-800">Agressividade</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="comportamentos" value="Comportamento autolesivo" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm border-red-100 hover:bg-red-50 text-red-800">Autolesivo</div></label>
-                            </div>
-                            
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3 border-t pt-4">Estratégias Aplicadas</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Redirecionamento" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Redirecionamento</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Reforço positivo" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Reforço positivo</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Modelagem" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Modelagem</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Prompting (Dicas)" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Prompting</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Extinção" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Extinção</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="estrategias" value="Suporte Físico" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm text-center">Suporte Físico</div></label>
-                            </div>
-                            <textarea name="obs_comportamentos" class="mt-4 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none" placeholder="Observações comportamentais..."></textarea>
-                        </div>
-                    </div>
+.nav-name span {
+  font-weight: 400;
+  opacity: .6;
+  font-size: 12px;
+  margin-left: 6px;
+}
 
-                    <!-- 4. Intercorrências -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-red-100 p-2 rounded-lg text-red-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">4. Intercorrências</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6 hidden">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="intercorrencias" value="Sem intercorrências" class="peer sr-only option-checkbox" checked=""><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Sem intercorrências</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="intercorrencias" value="Atraso para início" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Atraso</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="intercorrencias" value="Condição clínica do usuário" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Condição clínica (fome/sono/doença)</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="intercorrencias" value="Problemas técnicos/materiais" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Problemas técnicos</div></label>
-                            </div>
-                            <input type="text" name="intercorrencias_outro" class="mt-3 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-red-500 outline-none" placeholder="Descreva outra intercorrência se houver...">
-                        </div>
-                    </div>
+.nav-back {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px;
+  transition: all .15s;
+}
+.nav-back:hover { background: rgba(255,255,255,.12); color: #fff; }
 
-                    <!-- 5. Orientações -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-teal-100 p-2 rounded-lg text-teal-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">5. Orientações ao Responsável</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6 hidden">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="orientacoes" value="Relatado desempenho positivo" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Feedback Positivo</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="orientacoes" value="Relatado dificuldades" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Feedback Dificuldades</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="orientacoes" value="Orientações sobre continuidade em casa" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Continuidade em casa</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="orientacoes" value="Manejo de comportamento" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Manejo de comportamento</div></label>
-                            </div>
-                            <textarea name="obs_orientacoes" class="mt-4 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Detalhes das orientações..."></textarea>
-                        </div>
-                    </div>
+/* ── LAYOUT ── */
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+  align-items: start;
+}
 
-                    <!-- 6. Próxima Sessão -->
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <button type="button" class="w-full flex items-center justify-between p-5 bg-white hover:bg-slate-50 transition cursor-pointer text-left focus:outline-none toggle-section">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-indigo-100 p-2 rounded-lg text-indigo-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-slate-800">6. Próxima Sessão</h3>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="section-content px-5 pb-6 hidden">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <label class="cursor-pointer relative"><input type="checkbox" name="programacao" value="Manter sequência atual" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Manter sequência</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="programacao" value="Iniciar nova habilidade" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Nova habilidade</div></label>
-                                <label class="cursor-pointer relative"><input type="checkbox" name="programacao" value="Generalização" class="peer sr-only option-checkbox"><div class="p-3 border rounded-lg bg-white hover:bg-slate-50 transition-all text-sm">Trabalhar generalização</div></label>
-                            </div>
-                            <textarea name="obs_programacao" class="mt-4 w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Planejamento..."></textarea>
-                        </div>
-                    </div>
+.col-right { position: sticky; top: 72px; }
 
-                </form>
-            </div>
+/* ── PAGE TITLE ── */
+.page-title { margin-bottom: 22px; }
+.page-title h1 { font-size: 22px; font-weight: 800; color: var(--c-ink); letter-spacing: -.3px; }
+.page-title p  { font-size: 13px; color: var(--c-ink-3); margin-top: 3px; font-weight: 500; }
 
-            <!-- Coluna Direita: Ações e Resultado (Sticky) -->
-            <div class="lg:col-span-5 mt-4 lg:mt-0">
-                <div class="sticky top-24 space-y-4">
-                    
-                    <!-- Botão Principal -->
-                    <button type="button" id="generateButton" class="group w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-indigo-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-all duration-200 ease-in-out flex items-center justify-center gap-3">
-                        <span id="btnText">Gerar Evolução Clínica</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </button>
+/* ── DATE ROW ── */
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 13px 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
 
-                    <!-- Área do Resultado -->
-                    <div id="resultContainer" class="bg-white rounded-xl shadow-lg border border-slate-200 flex flex-col min-h-[400px] max-h-[80vh] relative">
-                        <!-- Header do Resultado -->
-                        <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-xl">
-                            <h2 class="font-semibold text-slate-700">Nota Gerada</h2>
-                            <button id="clearButton" class="text-xs text-slate-500 hover:text-red-600 font-medium px-2 py-1 rounded hover:bg-red-50 transition">Limpar Tudo</button>
-                        </div>
+.date-row label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--c-ink-3);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
-                        <!-- Conteúdo (Scrollable) -->
-                        <div class="flex-1 overflow-y-auto p-6 relative">
-                            <!-- Placeholder -->
-                            <div id="placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                <p class="text-sm">Selecione as opções ao lado e clique em Gerar para criar a nota clínica.</p>
-                            </div>
+.date-sep { width: 1px; height: 18px; background: var(--c-border); }
 
-                            <!-- Loading -->
-                            <div id="loading" class="hidden absolute inset-0 bg-white/90 z-10 flex flex-col items-center justify-center">
-                                <div class="bg-indigo-600 p-3 rounded-full shadow-xl mb-4">
-                                    <div class="spinner"></div>
-                                </div>
-                                <p class="text-indigo-900 font-medium animate-pulse">Consultando IA...</p>
-                            </div>
+.date-row input[type="date"] {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-ink);
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
 
-                            <!-- Texto Final -->
-                            <div id="result" class="whitespace-pre-wrap text-sm sm:text-base"></div>
-                        </div>
+/* ── ACCORDION CARD ── */
+.acc-card {
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: box-shadow .2s, border-color .2s;
+}
 
-                        <!-- Footer com Ações -->
-                        <div id="resultActions" class="p-4 border-t border-slate-100 bg-slate-50 rounded-b-xl flex gap-3 hidden">
-                            <button id="copyButton" class="flex-1 bg-white border border-slate-300 text-slate-700 font-medium py-2 px-4 rounded-lg hover:bg-slate-100 hover:text-indigo-600 transition flex items-center justify-center gap-2 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                Copiar
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="copyFeedback" class="hidden text-center text-sm text-emerald-600 font-medium bg-emerald-50 py-2 rounded-lg border border-emerald-100">
-                        Texto copiado para a área de transferência!
-                    </div>
+.acc-card:hover { border-color: var(--c-border-2); box-shadow: var(--shadow); }
 
-                </div>
-            </div>
-        </div>
+.toggle-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 12px;
+  transition: background .12s;
+}
+
+.toggle-section:hover { background: #FDFAFF; }
+
+.acc-label { display: flex; align-items: center; gap: 10px; flex: 1; }
+
+.acc-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--c-primary);
+  background: #EDE9FE;
+  border: 1px solid #DDD6FE;
+  border-radius: 6px;
+  padding: 2px 7px;
+  letter-spacing: .3px;
+  flex-shrink: 0;
+}
+
+.acc-title { font-size: 14px; font-weight: 700; color: var(--c-ink); }
+
+.acc-arrow {
+  width: 16px; height: 16px;
+  color: var(--c-ink-3);
+  transition: transform .22s ease;
+  flex-shrink: 0;
+}
+
+.section-content { padding: 4px 18px 18px; }
+.section-content.hidden { display: none; }
+
+/* ── CHIPS ── */
+.chip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.chip-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.chip-grid.cols-1 { grid-template-columns: 1fr; }
+
+.chip-wrap { position: relative; }
+
+.chip-wrap input[type="checkbox"] {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-chip-bg);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-ink-2);
+  cursor: pointer;
+  transition: all .13s;
+  text-align: center;
+  min-height: 38px;
+  user-select: none;
+  line-height: 1.3;
+}
+
+.chip-wrap:hover .chip { border-color: var(--c-primary); background: #F0EBFF; color: var(--c-primary); }
+
+.chip-wrap input:checked + .chip {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(124,58,237,.28);
+}
+
+/* Danger */
+.chip-wrap.is-danger .chip { color: #B91C1C; border-color: #FECACA; background: #FFF5F5; }
+.chip-wrap.is-danger:hover .chip { border-color: var(--c-danger); background: #FEF2F2; color: var(--c-danger); }
+.chip-wrap.is-danger input:checked + .chip { background: var(--c-danger); border-color: var(--c-danger); color: #fff; box-shadow: 0 2px 10px rgba(239,68,68,.28); }
+
+/* Sublabel */
+.sublabel {
+  font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--c-ink-3); margin: 12px 0 8px; padding-top: 10px; border-top: 1px solid #F0E8FF;
+}
+.sublabel:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+/* ── INPUTS ── */
+textarea, .text-input {
+  width: 100%; font-family: var(--font); font-size: 13px; font-weight: 500;
+  color: var(--c-ink); background: #FAFAFA; border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm); padding: 10px 13px; outline: none;
+  transition: border-color .15s, box-shadow .15s; resize: vertical; line-height: 1.55; margin-top: 4px;
+}
+textarea { min-height: 72px; }
+textarea:focus, .text-input:focus { border-color: var(--c-primary); background: #fff; box-shadow: 0 0 0 3px rgba(124,58,237,.1); }
+textarea::placeholder, .text-input::placeholder { color: #C4B5FD; font-weight: 500; }
+
+/* ── GENERATE BUTTON ── */
+.btn-generate {
+  width: 100%; margin-top: 18px; padding: 15px 24px;
+  background: linear-gradient(135deg, var(--c-primary) 0%, #A855F7 60%, var(--c-accent) 100%);
+  color: #fff; font-family: var(--font); font-size: 14px; font-weight: 800;
+  border: none; border-radius: var(--radius); cursor: pointer; letter-spacing: .2px;
+  box-shadow: 0 4px 20px rgba(124,58,237,.32); transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,.42); filter: brightness(1.06); }
+.btn-generate:active { transform: translateY(0); }
+
+/* ── RESULT CARD ── */
+#resultContainer {
+  background: var(--c-surface); border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+  min-height: 480px; max-height: calc(100vh - 100px); overflow: hidden;
+}
+
+.result-head {
+  padding: 14px 18px; border-bottom: 1.5px solid var(--c-border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #FAF5FF 0%, #FFF0F6 100%); flex-shrink: 0;
+}
+
+.result-head-title {
+  font-size: 13px; font-weight: 800; color: var(--c-ink);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.result-head-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-primary); box-shadow: 0 0 6px rgba(124,58,237,.5);
+}
+
+#clearButton {
+  font-family: var(--font); font-size: 11px; font-weight: 700; color: var(--c-ink-3);
+  background: transparent; border: 1px solid var(--c-border); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer; transition: all .14s;
+}
+#clearButton:hover { color: var(--c-danger); border-color: #FECACA; background: #FEF2F2; }
+
+.result-body {
+  flex: 1; overflow-y: auto; padding: 22px 20px; position: relative;
+}
+.result-body::-webkit-scrollbar { width: 3px; }
+.result-body::-webkit-scrollbar-thumb { background: #DDD6FE; border-radius: 3px; }
+
+#placeholder {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px; padding: 32px; text-align: center;
+}
+
+.ph-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, #F3E8FF, #FCE7F3);
+  border: 1.5px solid var(--c-border); display: grid; place-items: center; margin-bottom: 4px;
+}
+
+#placeholder p { font-size: 13px; font-weight: 600; color: var(--c-ink-3); max-width: 200px; line-height: 1.6; }
+
+#loading {
+  position: absolute; inset: 0; background: rgba(255,255,255,.9);
+  backdrop-filter: blur(3px); z-index: 10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+}
+#loading.hidden { display: none; }
+
+.spin-ring {
+  width: 44px; height: 44px; border: 3px solid #EDE9FE;
+  border-top-color: var(--c-primary); border-radius: 50%; animation: spin .75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loading p { font-size: 13px; font-weight: 700; color: var(--c-primary); }
+
+#result { font-size: 13px; line-height: 1.8; color: var(--c-ink); }
+
+/* The JS wraps section titles in <strong class="text-indigo-900"> — we override it here */
+#result strong {
+  display: block; font-size: 11px; font-weight: 800; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--c-primary);
+  margin-top: 18px; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #EDE9FE;
+}
+#result strong:first-child { margin-top: 0; }
+
+#resultActions { padding: 12px 16px; border-top: 1.5px solid var(--c-border); background: #FDFAFF; flex-shrink: 0; }
+#resultActions.hidden { display: none; }
+
+#copyButton {
+  width: 100%; padding: 10px; font-family: var(--font); font-size: 13px; font-weight: 700;
+  color: var(--c-primary); background: #fff; border: 1.5px solid var(--c-border-2);
+  border-radius: var(--radius-sm); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 7px; transition: all .14s;
+}
+#copyButton:hover { background: #EDE9FE; border-color: var(--c-primary); box-shadow: 0 2px 8px rgba(124,58,237,.15); }
+
+#copyFeedback {
+  margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--c-success);
+  background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 6px; padding: 6px 12px; text-align: center;
+}
+#copyFeedback.hidden { display: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .col-right { position: static; }
+  #resultContainer { max-height: 600px; }
+}
+@media (max-width: 640px) {
+  .layout { padding: 20px 14px 48px; }
+  .chip-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav { padding: 0 16px; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">E</div>
+    <div class="nav-name">EMPATHY <span>Clínica Multidisciplinar</span></div>
+  </div>
+  <a href="index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Início
+  </a>
+</nav>
+
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="col-left">
+    <div class="page-title">
+      <h1>Gerador de Evolução Clínica</h1>
+      <p>Preencha o checklist da sessão e gere a nota automaticamente.</p>
     </div>
 
-    <script>
+    <div class="date-row">
+      <label for="sessionDate">Data da sessão</label>
+      <div class="date-sep"></div>
+      <input type="date" id="sessionDate" name="sessionDate">
+    </div>
+
+    <form id="checklistForm">
+
+      <!-- 01 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">01</span><span class="acc-title">Condições de Chegada</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content">
+          <div class="chip-grid">
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Calmo" class="option-checkbox"><div class="chip">Calmo</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Colaborativo" class="option-checkbox"><div class="chip">Colaborativo</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Agitado" class="option-checkbox"><div class="chip">Agitado</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Choroso" class="option-checkbox"><div class="chip">Choroso</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Resistência à entrada" class="option-checkbox"><div class="chip">Resistência</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="condicoes_chegada" value="Sonolento" class="option-checkbox"><div class="chip">Sonolento</div></label>
+          </div>
+          <label class="chip-wrap" style="display:block;margin-bottom:12px">
+            <input type="checkbox" name="condicoes_chegada" value="Acompanhado por responsável engajado" class="option-checkbox">
+            <div class="chip" style="justify-content:flex-start;padding-left:14px">Responsável engajado</div>
+          </label>
+          <textarea name="obs_condicoes_chegada" placeholder="Observações adicionais sobre a chegada..."></textarea>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">02</span><span class="acc-title">Atividades Desenvolvidas</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chip-grid cols-2">
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Jogos de turnos" class="option-checkbox"><div class="chip">Jogos de turnos</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividades motoras grossas" class="option-checkbox"><div class="chip">Motoras grossas</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividades motoras finas" class="option-checkbox"><div class="chip">Motoras finas</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividades de linguagem (ecoico, mando, tato)" class="option-checkbox"><div class="chip">Linguagem / Verbal</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Leitura / Escrita" class="option-checkbox"><div class="chip">Leitura / Escrita</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividade lúdica dirigida" class="option-checkbox"><div class="chip">Lúdica dirigida</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividade musical" class="option-checkbox"><div class="chip">Musicalização</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="atividades" value="Atividade de habilidades sociais" class="option-checkbox"><div class="chip">Hab. Sociais</div></label>
+          </div>
+          <textarea name="obs_atividades" placeholder="Detalhes das atividades..."></textarea>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">03</span><span class="acc-title">Comportamento &amp; Estratégias</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <p class="sublabel">Comportamentos</p>
+          <div class="chip-grid cols-2">
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Engajado na maior parte" class="option-checkbox"><div class="chip">Engajado (Maior parte)</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Baixa atenção / distração" class="option-checkbox"><div class="chip">Baixa atenção</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Estereotipias motoras" class="option-checkbox"><div class="chip">Estereotipias motoras</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Ecolalia" class="option-checkbox"><div class="chip">Ecolalia</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Comportamento opositor" class="option-checkbox"><div class="chip">Opositor / Resistente</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="comportamentos" value="Crises de choro" class="option-checkbox"><div class="chip">Crises de choro</div></label>
+            <label class="chip-wrap is-danger"><input type="checkbox" name="comportamentos" value="Comportamento agressivo" class="option-checkbox"><div class="chip">Agressividade</div></label>
+            <label class="chip-wrap is-danger"><input type="checkbox" name="comportamentos" value="Comportamento autolesivo" class="option-checkbox"><div class="chip">Autolesivo</div></label>
+          </div>
+          <p class="sublabel">Estratégias Aplicadas</p>
+          <div class="chip-grid">
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Redirecionamento" class="option-checkbox"><div class="chip">Redirecionamento</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Reforço positivo" class="option-checkbox"><div class="chip">Reforço positivo</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Modelagem" class="option-checkbox"><div class="chip">Modelagem</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Prompting (Dicas)" class="option-checkbox"><div class="chip">Prompting (Dicas)</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Extinção" class="option-checkbox"><div class="chip">Extinção</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="estrategias" value="Suporte Físico" class="option-checkbox"><div class="chip">Suporte Físico</div></label>
+          </div>
+          <textarea name="obs_comportamentos" placeholder="Observações comportamentais..."></textarea>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">04</span><span class="acc-title">Intercorrências</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chip-grid cols-2">
+            <label class="chip-wrap"><input type="checkbox" name="intercorrencias" value="Sem intercorrências" class="option-checkbox" checked><div class="chip">Sem intercorrências</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="intercorrencias" value="Atraso para início" class="option-checkbox"><div class="chip">Atraso</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="intercorrencias" value="Condição clínica do usuário" class="option-checkbox"><div class="chip">Condição clínica (fome/sono/doença)</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="intercorrencias" value="Problemas técnicos/materiais" class="option-checkbox"><div class="chip">Problemas técnicos</div></label>
+          </div>
+          <input type="text" name="intercorrencias_outro" class="text-input" placeholder="Descreva outra intercorrência se houver...">
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">05</span><span class="acc-title">Orientações ao Responsável</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chip-grid cols-2">
+            <label class="chip-wrap"><input type="checkbox" name="orientacoes" value="Relatado desempenho positivo" class="option-checkbox"><div class="chip">Feedback Positivo</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="orientacoes" value="Relatado dificuldades" class="option-checkbox"><div class="chip">Feedback Dificuldades</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="orientacoes" value="Orientações sobre continuidade em casa" class="option-checkbox"><div class="chip">Continuidade em casa</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="orientacoes" value="Manejo de comportamento" class="option-checkbox"><div class="chip">Manejo de comportamento</div></label>
+          </div>
+          <textarea name="obs_orientacoes" placeholder="Detalhes das orientações..."></textarea>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="acc-card">
+        <button type="button" class="toggle-section">
+          <div class="acc-label"><span class="acc-num">06</span><span class="acc-title">Próxima Sessão</span></div>
+          <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chip-grid">
+            <label class="chip-wrap"><input type="checkbox" name="programacao" value="Manter sequência atual" class="option-checkbox"><div class="chip">Manter sequência atual</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="programacao" value="Iniciar nova habilidade" class="option-checkbox"><div class="chip">Iniciar nova habilidade</div></label>
+            <label class="chip-wrap"><input type="checkbox" name="programacao" value="Generalização" class="option-checkbox"><div class="chip">Generalização</div></label>
+          </div>
+          <textarea name="obs_programacao" placeholder="Planejamento..."></textarea>
+        </div>
+      </div>
+
+      <button type="button" id="generateButton" class="btn-generate">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Gerar Evolução Clínica
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="col-right">
+    <div id="resultContainer">
+      <div class="result-head">
+        <div class="result-head-title">
+          <div class="result-head-dot"></div>
+          Nota Gerada
+        </div>
+        <button id="clearButton">Limpar Tudo</button>
+      </div>
+      <div class="result-body">
+        <div id="placeholder">
+          <div class="ph-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <p>Selecione as opções ao lado e clique em Gerar para criar a nota clínica.</p>
+        </div>
+        <div id="loading" class="hidden">
+          <div class="spin-ring"></div>
+          <p>Consultando IA...</p>
+        </div>
+        <div id="result"></div>
+      </div>
+      <div id="resultActions" class="hidden">
+        <button id="copyButton">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar
+        </button>
+        <div id="copyFeedback" class="hidden">Texto copiado para a área de transferência!</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
         // =================================================================
         // ATENÇÃO: INSIRA SUA API KEY DO GOOGLE GEMINI ABAIXO
         // =================================================================
@@ -559,4 +816,5 @@
         });
     </script>
 
-</body></html>
+</body>
+</html>
