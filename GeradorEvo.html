@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolução Clínica – Clínica Empathy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMPATHY – EVOLUÇÃO CLÍNICA
+   Aesthetic: Soft clinical warmth — organic, aconchegante,
+   profissional sem ser frio. Tipografia com caráter.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose:     #F43F5E;
+  --rose-mid: #FB7185;
+  --rose-soft:#FFE4E6;
+  --plum:     #7C3AED;
+  --plum-mid: #A78BFA;
+  --plum-soft:#EDE9FE;
+  --bg:       #FFF7F8;
+  --surface:  #FFFFFF;
+  --ink:      #1C1028;
+  --ink-mid:  #4B3A5A;
+  --ink-soft: #9181A0;
+  --border:   #EDD9F0;
+  --success:  #059669;
+  --warn:     #DC2626;
+  --radius:   18px;
+  --radius-sm:10px;
+  --shadow:   0 2px 16px rgba(124,58,237,.08);
+  --shadow-md:0 6px 32px rgba(124,58,237,.14);
+}
+
+html { min-height: 100%; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(244,63,94,.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 90%, rgba(124,58,237,.07) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M26 26m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0' fill='%23C4B5FD' fill-opacity='0.18'/%3E%3C/svg%3E");
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+.nav {
+  background: linear-gradient(135deg, #4C1D95 0%, #6D28D9 60%, #9D174D 100%);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 20px rgba(76,29,149,.35);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: .3px;
+}
+
+.nav-brand-dot {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,.18);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  border: 1px solid rgba(255,255,255,.25);
+}
+
+.nav-sub {
+  color: rgba(255,255,255,.6);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.nav-home {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(255,255,255,.75);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.2);
+  transition: all .2s;
+  background: rgba(255,255,255,.08);
+}
+.nav-home:hover { background: rgba(255,255,255,.18); color: white; }
+
+/* ── API BAR ── */
+.api-bar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.api-bar label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--plum);
+  white-space: nowrap;
+  letter-spacing: .3px;
+}
+
+.api-bar input {
+  flex: 1;
+  max-width: 380px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  outline: none;
+  background: #FAF5FF;
+  transition: border-color .2s;
+}
+.api-bar input:focus { border-color: var(--plum-mid); }
+
+.api-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  transition: background .3s;
+}
+.api-dot.ok  { background: var(--success); box-shadow: 0 0 6px rgba(5,150,105,.5); }
+.api-dot.err { background: var(--warn); }
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 60px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+}
+
+.page-header h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.page-header h1 span {
+  font-style: italic;
+  color: var(--rose);
+}
+
+.page-header p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ── DATE CARD ── */
+.date-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.date-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, #FDF2F8, #EDE9FE);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.date-card label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-soft);
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.date-card input[type="date"] {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* ── SECTION CARDS ── */
+.section-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+
+.section-card:hover { box-shadow: var(--shadow-md); }
+
+.section-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background .15s;
+}
+
+.section-toggle:hover { background: #FDF7FF; }
+
+.section-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sec-badge {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+}
+
+.sec-badge.blue   { background: #EFF6FF; border-color: #BFDBFE; }
+.sec-badge.purple { background: var(--plum-soft); border-color: var(--plum-mid); }
+.sec-badge.amber  { background: #FFFBEB; border-color: #FDE68A; }
+.sec-badge.red    { background: #FEF2F2; border-color: #FECACA; }
+.sec-badge.teal   { background: #F0FDFA; border-color: #99F6E4; }
+.sec-badge.indigo { background: #EEF2FF; border-color: #C7D2FE; }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.section-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 1px;
+  letter-spacing: .3px;
+}
+
+.chevron-icon {
+  width: 18px; height: 18px;
+  color: var(--ink-soft);
+  transition: transform .25s ease;
+  flex-shrink: 0;
+}
+
+/* Section body */
+.section-content {
+  padding: 0 20px 20px;
+}
+
+.section-content.hidden { display: none; }
+
+/* ── CHECKBOX CHIPS ── */
+.chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.chips.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.chips.cols-full { grid-template-columns: 1fr; }
+
+.chip-label {
+  cursor: pointer;
+  position: relative;
+}
+
+.chip-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+
+.chip-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 8px;
+  border: 1.5px solid #EDD9F0;
+  border-radius: 10px;
+  background: #FAFAFA;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+  transition: all .15s;
+  min-height: 42px;
+  line-height: 1.3;
+  gap: 5px;
+}
+
+.chip-label:hover .chip-box {
+  border-color: var(--rose-mid);
+  background: #FFF0F3;
+  color: #9D174D;
+}
+
+.chip-label input:checked + .chip-box {
+  background: linear-gradient(135deg, #FCE7F3, #EDE9FE);
+  border-color: var(--plum-mid);
+  color: var(--plum);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(124,58,237,.18);
+}
+
+.chip-label input:checked + .chip-box.danger {
+  background: linear-gradient(135deg, #FEE2E2, #FCE7F3);
+  border-color: #F87171;
+  color: #B91C1C;
+}
+
+.chip-danger .chip-box { color: #B91C1C; border-color: #FECACA; background: #FEF7F7; }
+
+/* ── DIVIDER LABEL ── */
+.divider-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 10px 0 8px;
+  border-top: 1px solid #F3E8FF;
+  margin-top: 4px;
+}
+
+/* ── TEXTAREA ── */
+.obs-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  background: #FAFAFA;
+  resize: vertical;
+  min-height: 72px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.obs-textarea:focus {
+  border-color: var(--plum-mid);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(167,139,250,.15);
+}
+
+.obs-textarea::placeholder { color: #C4B5FD; font-weight: 500; }
+
+/* ── TEXT INPUT ── */
+.text-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: #FAFAFA;
+  outline: none;
+  transition: border-color .2s;
+  margin-top: 8px;
+}
+
+.text-input:focus {
+  border-color: var(--plum-mid);
+  box-shadow: 0 0 0 3px rgba(167,139,250,.15);
+  background: white;
+}
+
+/* ── GENERATE BUTTON ── */
+.generate-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 0 6px 24px rgba(124,58,237,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: .3px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  transition: left .5s;
+}
+
+.generate-btn:hover::before { left: 100%; }
+.generate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(124,58,237,.45); }
+.generate-btn:active { transform: translateY(0); }
+
+/* ── RIGHT COLUMN: RESULT ── */
+.result-col { position: sticky; top: 80px; }
+
+.result-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.result-head {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #FAF5FF 0%, #FFF1F4 100%);
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-head-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--plum), var(--rose));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+.result-head h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.result-head-actions {
+  display: flex; gap: 6px;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--ink-mid);
+  display: flex; align-items: center; gap: 4px;
+}
+
+.btn-sm:hover { background: #FAF5FF; border-color: var(--plum-mid); color: var(--plum); }
+.btn-sm.danger:hover { background: #FEF2F2; border-color: #FCA5A5; color: var(--warn); }
+
+/* Result body */
+.result-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px;
+  position: relative;
+}
+
+/* Scrollbar */
+.result-body::-webkit-scrollbar { width: 4px; }
+.result-body::-webkit-scrollbar-track { background: transparent; }
+.result-body::-webkit-scrollbar-thumb { background: #D8B4FE; border-radius: 4px; }
+
+/* Placeholder */
+#placeholder {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px;
+  text-align: center;
+}
+
+.ph-circle {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, #F3E8FF, #FFE4E6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  border: 2px solid var(--border);
+}
+
+#placeholder p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  max-width: 220px;
+  line-height: 1.6;
+}
+
+/* Loading */
+#loading {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+#loading.hidden { display: none; }
+
+.loading-ring {
+  width: 52px; height: 52px;
+  border: 4px solid #F3E8FF;
+  border-top-color: var(--plum);
+  border-radius: 50%;
+  animation: spin .85s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loading p {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--plum);
+  letter-spacing: .2px;
+}
+
+/* Result text */
+#result {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+.ev-bold {
+  font-weight: 800;
+  color: var(--plum);
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.ev-bold:first-child { margin-top: 0; }
+
+/* Result actions */
+#resultActions {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #FAF5FF, #FFF1F4);
+  border-top: 1.5px solid var(--border);
+}
+
+#resultActions.hidden { display: none; }
+
+#copyButton {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--plum);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  transition: all .15s;
+}
+
+#copyButton:hover {
+  background: var(--plum-soft);
+  border-color: var(--plum-mid);
+  box-shadow: 0 2px 10px rgba(124,58,237,.15);
+}
+
+/* Copy feedback */
+#copyFeedback {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--success);
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: 8px;
+  padding: 7px;
+  transition: opacity .3s;
+}
+#copyFeedback.hidden { display: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .page { grid-template-columns: 1fr; }
+  .result-col { position: static; }
+  .result-card { max-height: 600px; }
+  .page-header { grid-column: 1; }
+}
+
+@media (max-width: 640px) {
+  .page { padding: 20px 16px 40px; }
+  .chips { grid-template-columns: repeat(2, 1fr); }
+  .nav { padding: 0 16px; }
+  .api-bar { padding: 10px 16px; }
+  .api-bar input { max-width: 200px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-brand-dot">💜</div>
+    <div>
+      <div>EMPATHY</div>
+      <div class="nav-sub">Gerador de Evolução Clínica</div>
+    </div>
+  </div>
+  <a href="index.html" class="nav-home">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Início
+  </a>
+</nav>
+
+<!-- API BAR -->
+<div class="api-bar">
+  <div class="api-dot" id="apiDot"></div>
+  <label for="gemini-api-key">🔑 Chave Gemini:</label>
+  <input type="password" id="gemini-api-key" placeholder="Cole sua API Key do Gemini aqui..." oninput="updateDot()">
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Evolução <span>Clínica</span></h1>
+    <p>Preencha o checklist da sessão e gere a nota automaticamente com IA.</p>
+  </div>
+
+  <!-- LEFT COL: FORM -->
+  <div>
+
+    <!-- Date -->
+    <div class="date-card">
+      <div class="date-icon">📅</div>
+      <div>
+        <label for="sessionDate">Data da Sessão</label>
+        <input type="date" id="sessionDate" name="sessionDate">
+      </div>
+    </div>
+
+    <form id="checklistForm">
+
+      <!-- 1. Condições de Chegada -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge blue">🚪</div>
+            <div>
+              <div class="section-num">Seção 01</div>
+              <div class="section-title">Condições de Chegada</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content">
+          <div class="chips">
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Calmo" class="option-checkbox"><div class="chip-box">😌 Calmo</div></label>
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Colaborativo" class="option-checkbox"><div class="chip-box">🤝 Colaborativo</div></label>
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Agitado" class="option-checkbox"><div class="chip-box">⚡ Agitado</div></label>
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Choroso" class="option-checkbox"><div class="chip-box">😢 Choroso</div></label>
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Resistência à entrada" class="option-checkbox"><div class="chip-box">🚧 Resistência</div></label>
+            <label class="chip-label"><input type="checkbox" name="condicoes_chegada" value="Sonolento" class="option-checkbox"><div class="chip-box">😴 Sonolento</div></label>
+          </div>
+          <label class="chip-label chips cols-full">
+            <input type="checkbox" name="condicoes_chegada" value="Acompanhado por responsável engajado" class="option-checkbox">
+            <div class="chip-box" style="justify-content:flex-start;padding-left:14px">👨‍👩‍👧 Responsável engajado</div>
+          </label>
+          <textarea name="obs_condicoes_chegada" class="obs-textarea" placeholder="Observações adicionais sobre a chegada..."></textarea>
+        </div>
+      </div>
+
+      <!-- 2. Atividades -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge purple">🎯</div>
+            <div>
+              <div class="section-num">Seção 02</div>
+              <div class="section-title">Atividades Desenvolvidas</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chips cols-2">
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Jogos de turnos" class="option-checkbox"><div class="chip-box">🎲 Jogos de turnos</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividades motoras grossas" class="option-checkbox"><div class="chip-box">🏃 Motoras grossas</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividades motoras finas" class="option-checkbox"><div class="chip-box">✋ Motoras finas</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividades de linguagem (ecoico, mando, tato)" class="option-checkbox"><div class="chip-box">🗣️ Linguagem / Verbal</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Leitura / Escrita" class="option-checkbox"><div class="chip-box">📖 Leitura / Escrita</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividade lúdica dirigida" class="option-checkbox"><div class="chip-box">🎪 Lúdica dirigida</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividade musical" class="option-checkbox"><div class="chip-box">🎵 Musicalização</div></label>
+            <label class="chip-label"><input type="checkbox" name="atividades" value="Atividade de habilidades sociais" class="option-checkbox"><div class="chip-box">👥 Hab. Sociais</div></label>
+          </div>
+          <textarea name="obs_atividades" class="obs-textarea" placeholder="Detalhes das atividades..."></textarea>
+        </div>
+      </div>
+
+      <!-- 3. Comportamentos -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge amber">🧠</div>
+            <div>
+              <div class="section-num">Seção 03</div>
+              <div class="section-title">Comportamento &amp; Estratégias</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="divider-label">Comportamentos</div>
+          <div class="chips cols-2">
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Engajado na maior parte" class="option-checkbox"><div class="chip-box">✅ Engajado</div></label>
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Baixa atenção / distração" class="option-checkbox"><div class="chip-box">🌀 Baixa atenção</div></label>
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Estereotipias motoras" class="option-checkbox"><div class="chip-box">🔄 Estereotipias</div></label>
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Ecolalia" class="option-checkbox"><div class="chip-box">🔁 Ecolalia</div></label>
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Comportamento opositor" class="option-checkbox"><div class="chip-box">🚫 Opositor</div></label>
+            <label class="chip-label"><input type="checkbox" name="comportamentos" value="Crises de choro" class="option-checkbox"><div class="chip-box">😭 Crises de choro</div></label>
+            <label class="chip-label chip-danger"><input type="checkbox" name="comportamentos" value="Comportamento agressivo" class="option-checkbox"><div class="chip-box danger">⚠️ Agressividade</div></label>
+            <label class="chip-label chip-danger"><input type="checkbox" name="comportamentos" value="Comportamento autolesivo" class="option-checkbox"><div class="chip-box danger">🆘 Autolesivo</div></label>
+          </div>
+          <div class="divider-label">Estratégias Aplicadas</div>
+          <div class="chips">
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Redirecionamento" class="option-checkbox"><div class="chip-box">↩️ Redirecionamento</div></label>
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Reforço positivo" class="option-checkbox"><div class="chip-box">🌟 Reforço positivo</div></label>
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Modelagem" class="option-checkbox"><div class="chip-box">🪞 Modelagem</div></label>
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Prompting (Dicas)" class="option-checkbox"><div class="chip-box">💡 Prompting</div></label>
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Extinção" class="option-checkbox"><div class="chip-box">🔇 Extinção</div></label>
+            <label class="chip-label"><input type="checkbox" name="estrategias" value="Suporte Físico" class="option-checkbox"><div class="chip-box">🤲 Suporte Físico</div></label>
+          </div>
+          <textarea name="obs_comportamentos" class="obs-textarea" placeholder="Observações comportamentais..."></textarea>
+        </div>
+      </div>
+
+      <!-- 4. Intercorrências -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge red">⚠️</div>
+            <div>
+              <div class="section-num">Seção 04</div>
+              <div class="section-title">Intercorrências</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chips cols-2">
+            <label class="chip-label"><input type="checkbox" name="intercorrencias" value="Sem intercorrências" class="option-checkbox" checked><div class="chip-box">✅ Sem intercorrências</div></label>
+            <label class="chip-label"><input type="checkbox" name="intercorrencias" value="Atraso para início" class="option-checkbox"><div class="chip-box">⏰ Atraso</div></label>
+            <label class="chip-label"><input type="checkbox" name="intercorrencias" value="Condição clínica do usuário" class="option-checkbox"><div class="chip-box">🏥 Condição clínica</div></label>
+            <label class="chip-label"><input type="checkbox" name="intercorrencias" value="Problemas técnicos/materiais" class="option-checkbox"><div class="chip-box">🔧 Prob. técnicos</div></label>
+          </div>
+          <input type="text" name="intercorrencias_outro" class="text-input" placeholder="Descreva outra intercorrência se houver...">
+        </div>
+      </div>
+
+      <!-- 5. Orientações -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge teal">🗣️</div>
+            <div>
+              <div class="section-num">Seção 05</div>
+              <div class="section-title">Orientações ao Responsável</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chips cols-2">
+            <label class="chip-label"><input type="checkbox" name="orientacoes" value="Relatado desempenho positivo" class="option-checkbox"><div class="chip-box">👍 Feedback Positivo</div></label>
+            <label class="chip-label"><input type="checkbox" name="orientacoes" value="Relatado dificuldades" class="option-checkbox"><div class="chip-box">📋 Feedback Dific.</div></label>
+            <label class="chip-label"><input type="checkbox" name="orientacoes" value="Orientações sobre continuidade em casa" class="option-checkbox"><div class="chip-box">🏠 Continuidade casa</div></label>
+            <label class="chip-label"><input type="checkbox" name="orientacoes" value="Manejo de comportamento" class="option-checkbox"><div class="chip-box">🎯 Manejo comportam.</div></label>
+          </div>
+          <textarea name="obs_orientacoes" class="obs-textarea" placeholder="Detalhes das orientações..."></textarea>
+        </div>
+      </div>
+
+      <!-- 6. Próxima Sessão -->
+      <div class="section-card">
+        <button type="button" class="section-toggle toggle-section">
+          <div class="section-toggle-left">
+            <div class="sec-badge indigo">📅</div>
+            <div>
+              <div class="section-num">Seção 06</div>
+              <div class="section-title">Próxima Sessão</div>
+            </div>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="section-content hidden">
+          <div class="chips">
+            <label class="chip-label"><input type="checkbox" name="programacao" value="Manter sequência atual" class="option-checkbox"><div class="chip-box">🔄 Manter sequência</div></label>
+            <label class="chip-label"><input type="checkbox" name="programacao" value="Iniciar nova habilidade" class="option-checkbox"><div class="chip-box">✨ Nova habilidade</div></label>
+            <label class="chip-label"><input type="checkbox" name="programacao" value="Generalização" class="option-checkbox"><div class="chip-box">🌐 Generalização</div></label>
+          </div>
+          <textarea name="obs_programacao" class="obs-textarea" placeholder="Planejamento..."></textarea>
+        </div>
+      </div>
+
+      <!-- Generate button -->
+      <button type="button" id="generateButton" class="generate-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Gerar Evolução Clínica
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT COL: RESULT -->
+  <div class="result-col">
+    <div class="result-card" id="resultContainer">
+      <div class="result-head">
+        <div class="result-head-left">
+          <div class="result-head-icon">📝</div>
+          <h2>Nota Gerada</h2>
+        </div>
+        <div class="result-head-actions">
+          <button id="clearButton" class="btn-sm danger">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <div id="placeholder">
+          <div class="ph-circle">📋</div>
+          <p>Selecione as opções ao lado e clique em <strong>Gerar</strong> para criar a nota clínica.</p>
+        </div>
+
+        <div id="loading" class="hidden">
+          <div class="loading-ring"></div>
+          <p>Consultando IA...</p>
+        </div>
+
+        <div id="result"></div>
+      </div>
+
+      <div id="resultActions" class="hidden">
+        <button id="copyButton">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar nota
+        </button>
+        <div id="copyFeedback" class="hidden">✅ Texto copiado para a área de transferência!</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function updateDot() {
+  const k = document.getElementById('gemini-api-key').value.trim();
+  const d = document.getElementById('apiDot');
+  d.className = 'api-dot' + (k.length > 20 ? ' ok' : k.length > 0 ? ' err' : '');
+}
+</script>
+
+<script>
+
+        // API key is read from #gemini-api-key input
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referências DOM
+            const form = document.getElementById('checklistForm');
+            const generateButton = document.getElementById('generateButton');
+            const clearButton = document.getElementById('clearButton');
+            const placeholder = document.getElementById('placeholder');
+            const loading = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+            const resultActions = document.getElementById('resultActions');
+            const copyButton = document.getElementById('copyButton');
+            const copyFeedback = document.getElementById('copyFeedback');
+            const sessionDateInput = document.getElementById('sessionDate');
+            const resultContainer = document.getElementById('resultContainer');
+
+            // Data padrão: Hoje
+            sessionDateInput.valueAsDate = new Date();
+
+            // Lógica de Acordeão (Collapsible)
+            const toggles = document.querySelectorAll('.toggle-section');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const arrow = toggle.querySelector('svg:last-child');
+                    
+                    content.classList.toggle('hidden');
+                    if(content.classList.contains('hidden')) {
+                         arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Botão Gerar
+            generateButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                // UX: Resetar visualização
+                placeholder.classList.add('hidden');
+                resultActions.classList.add('hidden');
+                loading.classList.remove('hidden');
+                resultDiv.innerHTML = '';
+                copyFeedback.classList.add('hidden');
+
+                // UX Mobile: Scroll suave até o resultado se estiver em mobile
+                if(window.innerWidth < 1024) {
+                    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Coletar Dados
+                const formData = new FormData(form);
+                const data = {};
+                for (const [key, value] of formData.entries()) {
+                    if (!data[key]) data[key] = [];
+                    data[key].push(value);
+                }
+                
+                // Adicionar a data manualmente pois está fora do form
+                data.sessionDate = [sessionDateInput.value];
+
+                const prompt = buildPrompt(data);
+                
+                try {
+                    const generatedText = await callGeminiAPI(prompt);
+                    // Formatar Markdown simples para HTML (negrito)
+                    const formattedText = generatedText
+                        .replace(/\*\*(.*?)\*\*/g, '<strong class="ev-bold">$1</strong>')
+                        .replace(/\n/g, '<br>');
+                    
+                    resultDiv.innerHTML = formattedText;
+                    resultActions.classList.remove('hidden');
+                } catch (error) {
+                    console.error("Erro:", error);
+                    resultDiv.innerHTML = `<div class="text-red-600 p-4 bg-red-50 rounded-lg border border-red-200">
+                        <strong>Erro ao gerar evolução:</strong><br>${error.message}<br><br>
+                        <em>Verifique sua conexão ou se inseriu a Chave da API corretamente no código.</em>
+                    </div>`;
+                } finally {
+                    loading.classList.add('hidden');
+                }
+            });
+
+            // Botão Limpar
+            clearButton.addEventListener('click', () => {
+                form.reset();
+                sessionDateInput.valueAsDate = new Date();
+                
+                // Limpar checkboxes visuais (se houver lógica customizada, mas aqui é CSS puro no :checked)
+                // Limpar resultado
+                placeholder.classList.remove('hidden');
+                resultDiv.innerHTML = '';
+                resultActions.classList.add('hidden');
+            });
+
+            // Botão Copiar
+            copyButton.addEventListener('click', () => {
+                const textToCopy = resultDiv.innerText; // Pega apenas o texto, sem tags HTML
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    copyFeedback.classList.remove('hidden');
+                    setTimeout(() => copyFeedback.classList.add('hidden'), 3000);
+                }).catch(err => {
+                    // Fallback antigo se navigator falhar
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = textToCopy;
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextArea);
+                    
+                    copyFeedback.classList.remove('hidden');
+                    setTimeout(() => copyFeedback.classList.add('hidden'), 3000);
+                });
+            });
+
+            // Construção do Prompt (Aprimorada)
+            function buildPrompt(data) {
+                const sessionDate = data.sessionDate?.[0] ? new Date(data.sessionDate[0]).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : "Hoje";
+                
+                let promptText = `Aja como um profissional especialista em Análise do Comportamento Aplicada (ABA) e desenvolvimento atípico (Autismo).\n`;
+                promptText += `Sua tarefa é redigir uma EVOLUÇÃO CLÍNICA (Relatório de Sessão) técnica, formal e objetiva para prontuário médico.\n\n`;
+                
+                promptText += `**DADOS DA SESSÃO:**\n`;
+                promptText += `Data: ${sessionDate}\n`;
+                
+                // Helper para formatar listas
+                const formatList = (items, obs) => {
+                    let text = items ? items.join(', ') : 'Não informado';
+                    if (obs && obs[0]) text += `. (Obs: ${obs[0]})`;
+                    return text;
+                };
+
+                promptText += `\n**REGISTROS OBTIDOS (Checklist):**\n`;
+                promptText += `1. CHEGADA/ACOLHIMENTO: ${formatList(data.condicoes_chegada, data.obs_condicoes_chegada)}\n`;
+                promptText += `2. ATIVIDADES E RECURSOS: ${formatList(data.atividades, data.obs_atividades)}\n`;
+                promptText += `3. ANÁLISE COMPORTAMENTAL: ${formatList(data.comportamentos)}\n`;
+                promptText += `4. ESTRATÉGIAS DE MANEJO: ${formatList(data.estrategias, data.obs_comportamentos)}\n`;
+                
+                const intercorrencias = data.intercorrencias ? [...data.intercorrencias] : [];
+                if (data.intercorrencias_outro?.[0]) intercorrencias.push(data.intercorrencias_outro[0]);
+                promptText += `5. INTERCORRÊNCIAS: ${intercorrencias.join(', ') || 'Nenhuma'}\n`;
+                
+                promptText += `6. ORIENTAÇÕES À FAMÍLIA: ${formatList(data.orientacoes, data.obs_orientacoes)}\n`;
+                promptText += `7. PLANEJAMENTO FUTURO: ${formatList(data.programacao, data.obs_programacao)}\n`;
+
+                promptText += `\n**DIRETRIZES OBRIGATÓRIAS DE ESCRITA:**\n`;
+                promptText += `- Use linguagem técnica de saúde/psicologia (ex: "paciente apresentou", "foi observado", "mediante suporte físico").\n`;
+                promptText += `- Escreva SEMPRE na 3ª pessoa. Nunca use "eu fiz" ou "nós fizemos".\n`;
+                promptText += `- Seja conciso, mas integre os dados do checklist em parágrafos coesos, evitando apenas listar tópicos soltos dentro do texto corrido.\n`;
+                promptText += `- Utilize termos técnicos adequados (regulação emocional, estereotipias, reforço positivo, generalização, treino de habilidades, etc) quando pertinente aos dados fornecidos.\n`;
+                promptText += `- Se não houver informações suficientes em algum ponto, foque no que foi fornecido, mas NUNCA invente informações.\n`;
+                
+                promptText += `\n**ESTRUTURA DA NOTA FINAL:**\n`;
+                promptText += `Use exatamente estes títulos em negrito:\n`;
+                promptText += `**Condições de Chegada e Acolhimento**\n`;
+                promptText += `**Desenvolvimento da Sessão e Atividades**\n`;
+                promptText += `**Análise Comportamental e Estratégias**\n`;
+                promptText += `**Orientações e Encaminhamentos**\n`;
+                promptText += `**Planejamento para Próxima Sessão**\n`;
+
+                return promptText;
+            }
+
+            // Chamada API
+            async function callGeminiAPI(prompt) {
+                const apiKey = document.getElementById("gemini-api-key").value.trim();
+                if (!apiKey) { throw new Error("Insira sua chave da API Gemini no campo no topo da tela."); }
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.5, topK: 1, topP: 1, maxOutputTokens: 2048 },
+                };
+
+                let response;
+                let attempts = 0;
+                let delay = 1000;
+
+                while (attempts < 5) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                                return result.candidates[0].content.parts[0].text;
+                            } else {
+                                throw new Error("Resposta da API inválida ou vazia.");
+                            }
+                        } else if (response.status === 429) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            delay *= 2;
+                            attempts++;
+                        } else {
+                            const errorText = await response.text();
+                            throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+                        }
+                    } catch (error) {
+                        console.error(`Tentativa ${attempts + 1} falhou:`, error);
+                        if (attempts >= 4) throw error;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2;
+                        attempts++;
+                    }
+                }
+                throw new Error("Falha ao se comunicar com a API após múltiplas tentativas.");
+            }
+        });
+    
+</script>
+</body>
+</html>
