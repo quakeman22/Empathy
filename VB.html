@@ -726,8 +726,8 @@
         }
 
         async function callGeminiAPI(prompt) {
-            const apiKey = document.getElementById("gemini-api-key").value.trim();
-                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const apiKey = "AIzaSyARnyWBScSV46SCTp20H1vgzuecSoled8M";
+                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{
