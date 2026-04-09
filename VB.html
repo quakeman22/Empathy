@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metas VBMAPP – Clínica Empathy</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+    </script>
+    <style>
+        /* === EMPATHY THEME === */
+        :root {
+            --purple: #7C3AED;
+            --purple-light: #A855F7;
+            --purple-dark: #5B21B6;
+            --pink: #EC4899;
+            --pink-light: #F472B6;
+            --pink-dark: #BE185D;
+            --bg: #FDF4FF;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg) !important;
+        }
+        /* Header gradient */
+        .empathy-header {
+            background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #BE185D 100%);
+            padding: 28px 24px 24px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(124,58,237,0.25);
+        }
+        .empathy-header h1 {
+            color: white !important;
+            font-weight: 900 !important;
+            font-size: 1.9rem !important;
+            letter-spacing: -0.5px;
+        }
+        .empathy-header p {
+            color: rgba(255,255,255,0.8) !important;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        /* API key bar */
+        .api-key-bar {
+            background: white;
+            border: 1.5px solid #E9D5FF;
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(124,58,237,0.07);
+        }
+        .api-key-bar label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--purple);
+            white-space: nowrap;
+        }
+        .api-key-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1E1B4B;
+            background: transparent;
+        }
+        .api-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+        .api-dot.ok  { background: #10B981; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+        .api-dot.err { background: #EF4444; }
+        /* Steps override */
+        .bg-indigo-600 { background-color: var(--purple) !important; }
+        .text-indigo-600 { color: var(--purple) !important; }
+        .border-indigo-600 { border-color: var(--purple) !important; }
+        .hover\:bg-indigo-700:hover { background-color: var(--purple-dark) !important; }
+        .focus\:ring-indigo-500:focus { --tw-ring-color: rgba(124,58,237,0.4) !important; }
+        .focus\:border-indigo-500:focus { border-color: var(--purple-light) !important; }
+        .fill-indigo-600 { fill: var(--purple) !important; }
+        /* Cards */
+        .bg-white.rounded-lg.shadow-md {
+            border-radius: 14px !important;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.09) !important;
+            border: 1.5px solid #F3E8FF;
+        }
+        /* Gerar button */
+        .bg-green-600 {
+            background: linear-gradient(135deg, var(--purple), var(--pink)) !important;
+            border: none !important;
+        }
+        .hover\:bg-green-700:hover {
+            filter: brightness(1.08) !important;
+            background: linear-gradient(135deg, var(--purple), var(--pink)) !important;
+        }
+        .focus\:ring-green-500:focus { --tw-ring-color: rgba(236,72,153,0.4) !important; }
+        .text-green-600 { color: var(--pink-dark) !important; }
+        /* Table */
+        .bg-slate-100 { background: linear-gradient(135deg, #FAF5FF, #FFF0F6) !important; }
+        .text-slate-700.uppercase { color: var(--purple-dark) !important; }
+        .hover\:bg-slate-50:hover td { background: #FAF5FF !important; }
+        /* File upload */
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #D8B4FE;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: border-color 0.2s;
+            background: #FAF5FF;
+        }
+        .file-upload-wrapper:hover { border-color: var(--purple); background: #F3E8FF; }
+        .file-upload-wrapper input[type="file"] {
+            position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+        }
+        /* Volta btn */
+        .bg-slate-200 { background-color: #F3E8FF !important; }
+        .text-slate-700 { color: var(--purple-dark) !important; }
+        .hover\:bg-slate-300:hover { background-color: #E9D5FF !important; }
+        /* Step indicator */
+        .step-indicator { transition: all 0.3s ease-in-out; }
+        /* Prose */
+        .prose p  { margin-bottom: 1em; }
+        .prose h3, .prose h4 { margin-top: 1.5em; margin-bottom: 0.5em; }
+        .prose ul { margin-left: 1.5em; list-style-type: disc; }
+        /* Priority area checkboxes */
+        input[name="priorityArea"] { accent-color: var(--purple); }
+        /* Barrier inputs */
+        input[name="barrierScore"]:focus { border-color: var(--purple-light) !important; }
+        /* Toast */
+        #toast-message { border-radius: 10px !important; font-family: 'Nunito', sans-serif !important; font-weight: 700 !important; }
+        /* Home link */
+        .home-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 700;
+            text-decoration: none; margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+        .home-link:hover { color: white; }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.bottom-5{bottom:1.25rem}.right-5{right:1.25rem}.top-0{top:0px}.mx-auto{margin-left:auto;margin-right:auto}.-ml-10{margin-left:-2.5rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-10{margin-top:2.5rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.ml-3{margin-left:0.75rem}.ml-7{margin-left:1.75rem}.mt-1{margin-top:0.25rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-8{height:2rem}.h-4{height:1rem}.w-12{width:3rem}.w-32{width:8rem}.w-8{width:2rem}.w-full{width:100%}.w-4{width:1rem}.max-w-4xl{max-width:56rem}.max-w-none{max-width:none}.flex-auto{flex:1 1 auto}@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-6{gap:1.5rem}.gap-x-8{column-gap:2rem}.gap-y-4{row-gap:1rem}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded{border-radius:0.25rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-t-2{border-top-width:2px}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.fill-indigo-600{fill:#4f46e5}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.pb-2{padding-bottom:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-0{opacity:0}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.duration-500{transition-duration:500ms}.ease-in-out{transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1)}.hover\:bg-green-700:hover{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-300:hover{--tw-bg-opacity:1;background-color:rgb(203 213 225 / var(--tw-bg-opacity, 1))}.focus\:border-indigo-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-green-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(34 197 94 / var(--tw-ring-opacity, 1))}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.focus\:ring-slate-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(100 116 139 / var(--tw-ring-opacity, 1))}.focus\:ring-offset-2:focus{--tw-ring-offset-width:2px}@media (min-width: 640px){.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:p-8{padding:2rem}.md\:text-4xl{font-size:2.25rem;line-height:2.5rem}}@media (prefers-color-scheme: dark){.dark\:text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}}</style></head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="empathy-header">
+            <a href="index.html" class="home-link">← Voltar ao início</a>
+            <h1>Gerador de Relatórios e Metas SMART</h1>
+            <p>Clínica Empathy &nbsp;·&nbsp; Baseado no protocolo VBMAPP</p>
+        </header>
+        <!-- API Key Bar -->
+        <div class="api-key-bar">
+            <div class="api-dot" id="apiDot"></div>
+            <label for="gemini-api-key">🔑 Chave Gemini:</label>
+            <input type="password" id="gemini-api-key" placeholder="Cole sua API Key do Gemini aqui..." oninput="updateApiDot()">
+        </div>
+
+        <!-- Indicador de Etapas -->
+        <div class="w-full mb-8">
+            <div class="flex items-center justify-center">
+                <div class="step-indicator flex items-center text-indigo-600 relative">
+                    <div id="step-circle-1" class="rounded-full h-8 w-8 flex items-center justify-center bg-indigo-600 text-white font-bold">1</div>
+                    <div class="absolute top-0 -ml-10 text-center mt-10 w-32 text-xs font-medium uppercase text-indigo-600">Informações</div>
+                </div>
+                <div id="step-line-1" class="flex-auto border-t-2 transition duration-500 ease-in-out border-slate-300"></div>
+                <div class="step-indicator flex items-center text-slate-500 relative">
+                    <div id="step-circle-2" class="rounded-full h-8 w-8 flex items-center justify-center bg-white border-2 border-slate-300 font-bold">2</div>
+                    <div class="absolute top-0 -ml-10 text-center mt-10 w-32 text-xs font-medium uppercase text-slate-500">VBMAPP</div>
+                </div>
+                <div id="step-line-2" class="flex-auto border-t-2 transition duration-500 ease-in-out border-slate-300"></div>
+                <div class="step-indicator flex items-center text-slate-500 relative">
+                    <div id="step-circle-3" class="rounded-full h-8 w-8 flex items-center justify-center bg-white border-2 border-slate-300 font-bold">3</div>
+                    <div class="absolute top-0 -ml-10 text-center mt-10 w-32 text-xs font-medium uppercase text-slate-500">Barreiras</div>
+                </div>
+                 <div id="step-line-3" class="flex-auto border-t-2 transition duration-500 ease-in-out border-slate-300"></div>
+                <div class="step-indicator flex items-center text-slate-500 relative">
+                    <div id="step-circle-4" class="rounded-full h-8 w-8 flex items-center justify-center bg-white border-2 border-slate-300 font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+                    </div>
+                    <div class="absolute top-0 -ml-10 text-center mt-10 w-32 text-xs font-medium uppercase text-slate-500">Resultado</div>
+                </div>
+            </div>
+        </div>
+
+        <main id="form-container">
+            <!-- Etapa 1: Informações Iniciais -->
+            <div id="step-1" class="bg-white p-6 md:p-8 rounded-lg shadow-md space-y-6">
+                <h2 class="text-2xl font-bold text-slate-700 border-b pb-2">Etapa 1: Informações da Criança e Prioridades</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="child-name" class="block text-sm font-medium text-slate-700 mb-1">Nome da Criança</label>
+                        <input type="text" id="child-name" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Nome completo">
+                    </div>
+                    <div>
+                        <label for="child-age" class="block text-sm font-medium text-slate-700 mb-1">Idade</label>
+                        <input type="text" id="child-age" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Ex: 4 anos e 2 meses">
+                    </div>
+                </div>
+                <div>
+                    <label for="family-goals" class="block text-sm font-medium text-slate-700 mb-1">Objetivos da Família com a Intervenção</label>
+                    <textarea id="family-goals" rows="4" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Descreva o que a família espera alcançar com a terapia."></textarea>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Áreas Prioritárias para Intervenção</h3>
+                    <p class="text-sm text-slate-500 mb-4">Selecione as áreas que devem ser priorizadas. Uma caixa de texto aparecerá para instruções específicas, se necessário.</p>
+                    <div id="priority-areas-container" class="space-y-4">
+                        <!-- Checkboxes serão inseridos aqui via JS -->
+                    <div>
+                    <div class="flex items-center">
+                        <input id="check-habilidadesverbaiscomunicativas" name="priorityArea" type="checkbox" value="HABILIDADES VERBAIS/COMUNICATIVAS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-habilidadesverbaiscomunicativas" class="ml-3 block text-sm font-medium text-slate-700">HABILIDADES VERBAIS/COMUNICATIVAS</label>
+                    </div>
+                    <div id="note-habilidadesverbaiscomunicativas-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-habilidadesverbaiscomunicativas" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-habilidadesacadmicas" name="priorityArea" type="checkbox" value="HABILIDADES ACADÊMICAS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-habilidadesacadmicas" class="ml-3 block text-sm font-medium text-slate-700">HABILIDADES ACADÊMICAS</label>
+                    </div>
+                    <div id="note-habilidadesacadmicas-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-habilidadesacadmicas" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-habilidadesdevidadiriaeinstrumentaisdevidadiria" name="priorityArea" type="checkbox" value="HABILIDADES DE VIDA DIÁRIA E INSTRUMENTAIS DE VIDA DIÁRIA" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-habilidadesdevidadiriaeinstrumentaisdevidadiria" class="ml-3 block text-sm font-medium text-slate-700">HABILIDADES DE VIDA DIÁRIA E INSTRUMENTAIS DE VIDA DIÁRIA</label>
+                    </div>
+                    <div id="note-habilidadesdevidadiriaeinstrumentaisdevidadiria-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-habilidadesdevidadiriaeinstrumentaisdevidadiria" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-habilidadesmotoras" name="priorityArea" type="checkbox" value="HABILIDADES MOTORAS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-habilidadesmotoras" class="ml-3 block text-sm font-medium text-slate-700">HABILIDADES MOTORAS</label>
+                    </div>
+                    <div id="note-habilidadesmotoras-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-habilidadesmotoras" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-habilidadessociais" name="priorityArea" type="checkbox" value="HABILIDADES SOCIAIS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-habilidadessociais" class="ml-3 block text-sm font-medium text-slate-700">HABILIDADES SOCIAIS</label>
+                    </div>
+                    <div id="note-habilidadessociais-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-habilidadessociais" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-modulaessensoriais" name="priorityArea" type="checkbox" value="MODULAÇÕES SENSORIAIS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-modulaessensoriais" class="ml-3 block text-sm font-medium text-slate-700">MODULAÇÕES SENSORIAIS</label>
+                    </div>
+                    <div id="note-modulaessensoriais-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-modulaessensoriais" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-percepoeexploraortmica" name="priorityArea" type="checkbox" value="PERCEPÇÃO E EXPLORAÇÃO RÍTMICA" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-percepoeexploraortmica" class="ml-3 block text-sm font-medium text-slate-700">PERCEPÇÃO E EXPLORAÇÃO RÍTMICA</label>
+                    </div>
+                    <div id="note-percepoeexploraortmica-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-percepoeexploraortmica" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div><div>
+                    <div class="flex items-center">
+                        <input id="check-comportamentosdisruptivos" name="priorityArea" type="checkbox" value="COMPORTAMENTOS DISRUPTIVOS" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-comportamentosdisruptivos" class="ml-3 block text-sm font-medium text-slate-700">COMPORTAMENTOS DISRUPTIVOS</label>
+                    </div>
+                    <div id="note-comportamentosdisruptivos-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-comportamentosdisruptivos" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                </div></div>
+                </div>
+                <div class="flex justify-end">
+                    <button onclick="nextStep(2)" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Etapa 2: Upload VBMAPP -->
+            <div id="step-2" class="hidden bg-white p-6 md:p-8 rounded-lg shadow-md space-y-6">
+                <h2 class="text-2xl font-bold text-slate-700 border-b pb-2">Etapa 2: Resultados da Avaliação VBMAPP</h2>
+                <p class="text-slate-600">Faça o upload do arquivo PDF com os resultados completos da avaliação VBMAPP. A IA irá analisar o conteúdo deste arquivo.</p>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="vbmapp-file" accept=".pdf">
+                    <div id="file-upload-text" class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <p class="mt-2 text-sm text-slate-600"><span class="font-semibold text-indigo-600">Clique para enviar</span> ou arraste e solte</p>
+                        <p class="text-xs text-slate-500">PDF até 10MB</p>
+                        <p id="file-name-display" class="mt-2 text-sm font-medium text-green-600"></p>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button onclick="prevStep(1)" class="bg-slate-200 text-slate-700 font-bold py-2 px-6 rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition">Anterior</button>
+                    <button onclick="nextStep(3)" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Etapa 3: Avaliação de Barreiras -->
+            <div id="step-3" class="hidden bg-white p-6 md:p-8 rounded-lg shadow-md space-y-6">
+                <h2 class="text-2xl font-bold text-slate-700 border-b pb-2">Etapa 3: Avaliação de Barreiras</h2>
+                <p class="text-slate-600">Insira a pontuação (0-4) para cada barreira identificada no VBMAPP.</p>
+                <div id="barriers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-4">
+                    <!-- Campos de barreiras serão inseridos aqui via JS -->
+                <div>
+                    <label for="barrier-comportamentonegativo" class="block text-sm font-medium text-slate-700">Comportamento Negativo</label>
+                    <input type="number" id="barrier-comportamentonegativo" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-controleinstitucional" class="block text-sm font-medium text-slate-700">Controle Institucional</label>
+                    <input type="number" id="barrier-controleinstitucional" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-mandodefeituoso" class="block text-sm font-medium text-slate-700">Mando Defeituoso</label>
+                    <input type="number" id="barrier-mandodefeituoso" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-tatodefeituoso" class="block text-sm font-medium text-slate-700">Tato Defeituoso</label>
+                    <input type="number" id="barrier-tatodefeituoso" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-intraverbaldefeituoso" class="block text-sm font-medium text-slate-700">Intraverbal Defeituoso</label>
+                    <input type="number" id="barrier-intraverbaldefeituoso" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-comportamentoecoicodefeituoso" class="block text-sm font-medium text-slate-700">Comportamento Ecoico Defeituoso</label>
+                    <input type="number" id="barrier-comportamentoecoicodefeituoso" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-comportamentodeouvintedefeituoso" class="block text-sm font-medium text-slate-700">Comportamento de Ouvinte Defeituoso</label>
+                    <input type="number" id="barrier-comportamentodeouvintedefeituoso" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-imitaomotoradefeituosa" class="block text-sm font-medium text-slate-700">Imitação Motora Defeituosa</label>
+                    <input type="number" id="barrier-imitaomotoradefeituosa" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-pareamentodefeituosomts" class="block text-sm font-medium text-slate-700">Pareamento Defeituoso (MTS)</label>
+                    <input type="number" id="barrier-pareamentodefeituosomts" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-dependnciadedica" class="block text-sm font-medium text-slate-700">Dependência de Dica</label>
+                    <input type="number" id="barrier-dependnciadedica" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-discriminaescondicionaisdefeituosas" class="block text-sm font-medium text-slate-700">Discriminações Condicionais Defeituosas</label>
+                    <input type="number" id="barrier-discriminaescondicionaisdefeituosas" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-fracassoemgeneralizar" class="block text-sm font-medium text-slate-700">Fracasso em Generalizar</label>
+                    <input type="number" id="barrier-fracassoemgeneralizar" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-motivaofraca" class="block text-sm font-medium text-slate-700">Motivação Fraca</label>
+                    <input type="number" id="barrier-motivaofraca" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-respostafraca" class="block text-sm font-medium text-slate-700">Resposta Fraca</label>
+                    <input type="number" id="barrier-respostafraca" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-dependnciadereforador" class="block text-sm font-medium text-slate-700">Dependência de Reforçador</label>
+                    <input type="number" id="barrier-dependnciadereforador" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-autoestimulao" class="block text-sm font-medium text-slate-700">Autoestimulação</label>
+                    <input type="number" id="barrier-autoestimulao" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-comportamentosarticulatriosdefeituosos" class="block text-sm font-medium text-slate-700">Comportamentos Articulatórios Defeituosos</label>
+                    <input type="number" id="barrier-comportamentosarticulatriosdefeituosos" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-comportamentoobsessivocompulsivo" class="block text-sm font-medium text-slate-700">Comportamento Obsessivo-Compulsivo</label>
+                    <input type="number" id="barrier-comportamentoobsessivocompulsivo" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-comportamentohiperativo" class="block text-sm font-medium text-slate-700">Comportamento Hiperativo</label>
+                    <input type="number" id="barrier-comportamentohiperativo" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-fracassoemfazercontatovisual" class="block text-sm font-medium text-slate-700">Fracasso em Fazer Contato Visual</label>
+                    <input type="number" id="barrier-fracassoemfazercontatovisual" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div><div>
+                    <label for="barrier-defensivasensorial" class="block text-sm font-medium text-slate-700">Defensiva Sensorial</label>
+                    <input type="number" id="barrier-defensivasensorial" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                </div></div>
+                <div class="flex justify-between">
+                    <button onclick="prevStep(2)" class="bg-slate-200 text-slate-700 font-bold py-2 px-6 rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition">Anterior</button>
+                    <button onclick="generateReport()" class="bg-green-600 text-white font-bold py-2 px-6 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition">Gerar Relatório e Metas</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Tela de Carregamento -->
+        <div id="loading-screen" class="hidden text-center p-8">
+            <div role="status" class="flex flex-col items-center justify-center">
+                <svg aria-hidden="true" class="w-12 h-12 mr-2 text-slate-200 animate-spin dark:text-slate-600 fill-indigo-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
+                </svg>
+                <span class="sr-only">Carregando...</span>
+                <p id="loading-message" class="mt-4 text-lg font-semibold text-slate-700">Analisando dados e gerando o plano terapêutico...</p>
+                <p class="text-slate-500">Isso pode levar alguns segundos.</p>
+            </div>
+        </div>
+
+        <!-- Tela de Resultado -->
+        <div id="result-screen" class="hidden space-y-8">
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-slate-700">Relatório de Avaliação Inicial</h2>
+                    <button onclick="copyToClipboard(&#39;report-content&#39;)" class="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-slate-200 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                        Copiar
+                    </button>
+                </div>
+                <div id="report-content" class="bg-white p-6 md:p-8 rounded-lg shadow-md prose max-w-none">
+                    <!-- Conteúdo do relatório será inserido aqui -->
+                </div>
+            </div>
+            <div>
+                 <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-slate-700">Plano de Tratamento Singular (PTS) - Metas SMART</h2>
+                    <button onclick="copyToClipboard(&#39;goals-table&#39;)" class="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-slate-200 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                        Copiar
+                    </button>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-x-auto">
+                    <table id="goals-table" class="w-full text-sm text-left text-slate-500">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Área</th>
+                                <th scope="col" class="px-6 py-3">Específica (Specific)</th>
+                                <th scope="col" class="px-6 py-3">Mensurável (Measurable)</th>
+                                <th scope="col" class="px-6 py-3">Atingível (Achievable)</th>
+                                <th scope="col" class="px-6 py-3">Relevante (Relevant)</th>
+                                <th scope="col" class="px-6 py-3">Com Prazo (Time-bound)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="goals-table-body">
+                           <!-- Linhas da tabela serão inseridas aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+             <div class="text-center mt-8">
+                <button onclick="startOver()" class="bg-indigo-600 text-white font-bold py-2 px-8 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">Começar Novamente</button>
+            </div>
+        </div>
+
+        <!-- Caixa de mensagem para feedback de cópia -->
+        <div id="toast-message" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-xl text-sm transition-opacity duration-300 opacity-0">
+            Texto copiado para a área de transferência!
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÃO INICIAL ---
+        let currentStep = 1;
+        const allPriorityAreas = [
+            "HABILIDADES VERBAIS/COMUNICATIVAS", "HABILIDADES ACADÊMICAS", 
+            "HABILIDADES DE VIDA DIÁRIA E INSTRUMENTAIS DE VIDA DIÁRIA", "HABILIDADES MOTORAS", 
+            "HABILIDADES SOCIAIS", "MODULAÇÕES SENSORIAIS", "PERCEPÇÃO E EXPLORAÇÃO RÍTMICA", 
+            "COMPORTAMENTOS DISRUPTIVOS"
+        ];
+        const barriers = [
+            "Comportamento Negativo", "Controle Institucional", "Mando Defeituoso", "Tato Defeituoso",
+            "Intraverbal Defeituoso", "Comportamento Ecoico Defeituoso", "Comportamento de Ouvinte Defeituoso",
+            "Imitação Motora Defeituosa", "Pareamento Defeituoso (MTS)", "Dependência de Dica",
+            "Discriminações Condicionais Defeituosas", "Fracasso em Generalizar", "Motivação Fraca",
+            "Resposta Fraca", "Dependência de Reforçador", "Autoestimulação",
+            "Comportamentos Articulatórios Defeituosos", "Comportamento Obsessivo-Compulsivo",
+            "Comportamento Hiperativo", "Fracasso em Fazer Contato Visual", "Defensiva Sensorial"
+        ];
+
+        // --- INICIALIZAÇÃO DOS COMPONENTES DINÂMICOS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const priorityContainer = document.getElementById('priority-areas-container');
+            allPriorityAreas.forEach(area => {
+                const areaId = area.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <div class="flex items-center">
+                        <input id="check-${areaId}" name="priorityArea" type="checkbox" value="${area}" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <label for="check-${areaId}" class="ml-3 block text-sm font-medium text-slate-700">${area}</label>
+                    </div>
+                    <div id="note-${areaId}-container" class="hidden mt-2 ml-7">
+                        <textarea id="note-${areaId}" rows="2" class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Instrução específica para esta área (opcional)"></textarea>
+                    </div>
+                `;
+                priorityContainer.appendChild(div);
+
+                document.getElementById(`check-${areaId}`).addEventListener('change', (e) => {
+                    document.getElementById(`note-${areaId}-container`).classList.toggle('hidden', !e.target.checked);
+                });
+            });
+
+            const barriersContainer = document.getElementById('barriers-container');
+            barriers.forEach(barrier => {
+                const barrierId = barrier.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label for="barrier-${barrierId}" class="block text-sm font-medium text-slate-700">${barrier}</label>
+                    <input type="number" id="barrier-${barrierId}" name="barrierScore" min="0" max="4" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="0-4">
+                `;
+                barriersContainer.appendChild(div);
+            });
+
+            const fileInput = document.getElementById('vbmapp-file');
+            const fileNameDisplay = document.getElementById('file-name-display');
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    fileNameDisplay.textContent = `Arquivo selecionado: ${fileInput.files[0].name}`;
+                } else {
+                    fileNameDisplay.textContent = '';
+                }
+            });
+        });
+        
+        // --- NAVEGAÇÃO ENTRE ETAPAS ---
+        function updateStepIndicator(step) {
+            for (let i = 1; i <= 4; i++) {
+                const circle = document.getElementById(`step-circle-${i}`);
+                const text = circle.parentElement.querySelector('div.text-xs');
+                
+                if (i < step) {
+                    circle.classList.remove('bg-white', 'border-slate-300', 'text-slate-500');
+                    circle.classList.add('bg-indigo-600', 'text-white');
+                    circle.innerHTML = '&#10003;';
+                    text.classList.remove('text-slate-500');
+                    text.classList.add('text-indigo-600');
+                } else if (i === step) {
+                    circle.classList.remove('bg-white', 'border-slate-300', 'text-slate-500');
+                    circle.classList.add('bg-indigo-600', 'text-white');
+                    circle.innerHTML = i;
+                    text.classList.remove('text-slate-500');
+                    text.classList.add('text-indigo-600');
+                } else {
+                    circle.classList.remove('bg-indigo-600', 'text-white');
+                    circle.classList.add('bg-white', 'border-slate-300', 'text-slate-500');
+                    circle.innerHTML = i;
+                    text.classList.remove('text-indigo-600');
+                    text.classList.add('text-slate-500');
+                }
+
+                if (i < 4) {
+                     const line = document.getElementById(`step-line-${i}`);
+                     if (i < step) {
+                         line.classList.remove('border-slate-300');
+                         line.classList.add('border-indigo-600');
+                     } else {
+                         line.classList.remove('border-indigo-600');
+                         line.classList.add('border-slate-300');
+                     }
+                }
+            }
+        }
+
+        function nextStep(step) {
+            if (currentStep === 1) {
+                if (!document.getElementById('child-name').value || !document.getElementById('child-age').value) {
+                    showToast("Por favor, preencha o nome e a idade.", true);
+                    return;
+                }
+            }
+            document.getElementById(`step-${currentStep}`).classList.add('hidden');
+            currentStep = step;
+            document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+            updateStepIndicator(currentStep);
+            window.scrollTo(0, 0);
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step-${currentStep}`).classList.add('hidden');
+            currentStep = step;
+            document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+            updateStepIndicator(currentStep);
+            window.scrollTo(0, 0);
+        }
+
+        // --- LÓGICA DE LEITURA DE PDF ---
+        async function readPdf(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async function() {
+                    try {
+                        const typedarray = new Uint8Array(this.result);
+                        const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                        let fullText = '';
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const textContent = await page.getTextContent();
+                            fullText += textContent.items.map(item => item.str).join(' ') + '\n\n';
+                        }
+                        resolve(fullText);
+                    } catch (error) {
+                        reject(new Error("Não foi possível ler o arquivo PDF. Verifique se o arquivo está corrompido."));
+                    }
+                };
+                reader.onerror = () => reject(new Error("Erro ao carregar o arquivo."));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // --- LÓGICA DE GERAÇÃO COM API GEMINI ---
+        async function generateReport() {
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+            updateStepIndicator(4);
+
+            try {
+                const vbmappFile = document.getElementById('vbmapp-file').files[0];
+                let vbmappText = "Nenhum arquivo VBMAPP foi enviado.";
+
+                if (vbmappFile) {
+                    document.getElementById('loading-message').textContent = "Lendo o arquivo PDF...";
+                    vbmappText = await readPdf(vbmappFile);
+                }
+
+                document.getElementById('loading-message').textContent = "Analisando dados e gerando o plano terapêutico...";
+                
+                const formData = collectFormData();
+                formData.vbmappResults = vbmappText;
+
+                const prompt = buildPrompt(formData);
+                const geminiResponse = await callGeminiAPI(prompt);
+                
+                if (!geminiResponse) {
+                    throw new Error("A resposta da API estava vazia.");
+                }
+
+                parseAndDisplayResults(geminiResponse);
+
+            } catch (error) {
+                console.error("Erro ao gerar relatório:", error);
+                document.getElementById('loading-message').textContent = `Ocorreu um erro: ${error.message}. Por favor, tente novamente.`;
+            }
+        }
+
+        function collectFormData() {
+            const formData = {
+                childName: document.getElementById('child-name').value,
+                childAge: document.getElementById('child-age').value,
+                familyGoals: document.getElementById('family-goals').value,
+                priorityAreas: [],
+                barriers: {}
+            };
+
+            document.querySelectorAll('input[name="priorityArea"]:checked').forEach(checkbox => {
+                const area = checkbox.value;
+                const areaId = area.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const note = document.getElementById(`note-${areaId}`).value;
+                formData.priorityAreas.push({ area, note });
+            });
+
+            document.querySelectorAll('input[name="barrierScore"]').forEach(input => {
+                if (input.value) {
+                    const label = document.querySelector(`label[for='${input.id}']`);
+                    if (label) {
+                       formData.barriers[label.textContent] = input.value;
+                    }
+                }
+            });
+            return formData;
+        }
+
+        function buildPrompt(data) {
+            let priorityAreasText = data.priorityAreas.map(p => `- ${p.area}${p.note ? ` (Instrução do profissional: ${p.note})` : ''}`).join('\n');
+            let barriersText = Object.entries(data.barriers).map(([key, value]) => `- ${key}: Pontuação ${value}`).join('\n');
+
+            return `
+                **PERSONA:** Você é um especialista em Análise do Comportamento (ABA), com vasta experiência em intervenção com crianças com Transtorno do Espectro Autista (TEA) e na aplicação do protocolo VBMAPP.
+
+                **TAREFA:** Analise os dados a seguir e gere um "Relatório de Avaliação Inicial" e um "Plano de Tratamento Singular (PTS)" com metas no formato SMART. **A fonte primária de dados é o conteúdo do VBMAPP extraído do PDF.** Use os outros campos para personalizar e priorizar.
+
+                **DADOS DA CRIANÇA:**
+                - **Nome:** ${data.childName}
+                - **Idade:** ${data.childAge}
+                - **Objetivos da Família:** ${data.familyGoals || "Não especificado."}
+                - **Áreas Prioritárias Selecionadas pelo Profissional:**
+                ${priorityAreasText || "Nenhuma área prioritária selecionada."}
+                - **Pontuação das Barreiras (0-4):**
+                ${barriersText || "Nenhuma pontuação de barreira fornecida."}
+                - **Resultados da Avaliação VBMAPP (extraído do PDF):**
+                ${data.vbmappResults}
+
+
+                **INSTRUÇÕES DE SAÍDA:**
+                1.  **Relatório de Avaliação Inicial:** Escreva o relatório seguindo o modelo fornecido, personalizando-o com o nome da criança. **Baseie os "Pontos Fortes" e as "Áreas para Desenvolvimento" principalmente nos dados extraídos do PDF.** Mantenha um tom acolhedor e profissional. Use tags HTML simples como <p>, <strong>, <ul>, e <li> para formatação.
+                2.  **Plano de Metas (PTS):**
+                    a.  **Foco Principal:** Crie 3 metas SMART para CADA uma das "Áreas Prioritárias" selecionadas, caso o profissioanl tenha colocado alguma instrução ao selecionar a area, você deve criar uma meta para cada instrução dada, não se limitando a 3. Analise a instrução dada, pois em um mesmo campo possa ser que o profissonal tenha colocado numa instrução mais de uma meta a ser feita. As metas devem refletir os objetivos da família, as instruções do profissional e, crucialmente, os déficits apontados no VBMAPP (PDF), lembre-se que você deve analisar os dados do relatório dos resultados do VBMAPP anexados (PDF) é crucial que você leve em consideração os dados. Caso não tenha sido selecionada nenhuma area prioritária, faça metas com base na avaliação anexada do VBMAPP.
+                    b.  **Metas Adicionais:** Com base na sua análise completa do VBMAPP (PDF), crie quantas metas SMART adicionais forem necessárias em áreas que você, como especialista, julga importantes, mesmo que não tenham sido selecionadas, sempre você deve fornecer metas adicionais com base nos resultados extraídos do PDF.
+                    c.  **Formato Rígido para Metas:** Apresente as metas APENAS no formato a seguir, usando "|" como separador. NÃO inclua cabeçalhos ou texto extra na seção de metas. Cada meta deve estar em uma nova linha.
+                        Formato: Área | Específica (Specific) | Mensurável (Measurable) | Atingível (Achievable) | Relevante (Relevant) | Com Prazo (Time-bound)
+
+                **MODELO DO RELATÓRIO:**
+                <h3 class="font-bold text-lg">Relatório de Avaliação Inicial</h3>
+                <p><strong>Prezados Pais/Responsáveis,</strong></p>
+                <p>Este relatório foi preparado para apresentar os resultados da avaliação inicial que realizamos com <strong>${data.childName}</strong> usando a ferramenta VBMAPP (Verbal Behavior Milestones Assessment and Placement Program).</p>
+                <p>O VBMAPP é um instrumento de avaliação que nos ajuda a entender de forma detalhada como seu filho se comunica, aprende e interage com o mundo. Ele nos permite ter uma "fotografia" clara de suas habilidades atuais, o que é o primeiro e mais importante passo para criarmos um plano de terapia totalmente personalizado para as necessidades dele.</p>
+                <h4>Sumário dos Resultados da Avaliação</h4>
+                <p>A avaliação VBMAPP nos mostrou que <strong>${data.childName}</strong> já demonstra muitas habilidades importantes. A partir de agora, nosso trabalho será construir sobre esses pontos fortes, ao mesmo tempo em que desenvolvemos novas habilidades nas áreas em que ele precisa de mais apoio.</p>
+                <h4>Pontos Fortes Observados:</h4>
+                <ul>
+                    <li><strong>Comunicação:</strong> (Descreva 1 ou 2 pontos fortes específicos da criança, de forma positiva e simples, com base nos dados do PDF.)</li>
+                    <li><strong>Brincadeira e Habilidades Sociais:</strong> (Descreva 1 ou 2 pontos fortes com base nos dados do PDF.)</li>
+                    <li><strong>Habilidades de Aprendizado Geral:</strong> (Descreva 1 ou 2 pontos fortes com base nos dados do PDF.)</li>
+                </ul>
+                <h4>Áreas para Desenvolvimento (Nossas Metas de Trabalho):</h4>
+                <p>Com base nos resultados, as seguintes áreas foram identificadas como prioridade para o nosso plano de terapia:</p>
+                <ul>
+                    ${data.priorityAreas.map(p => `<li><strong>${p.area.split(' E ')[0]}</strong></li>`).join('')}
+                </ul>
+                <h4>Próximos Passos: Nosso Plano de Tratamento</h4>
+                <p>Os resultados deste relatório foram a base para a criação do Plano de Tratamento Singular (PTS) que você receberá. O PTS detalha cada uma das metas que vamos trabalhar em terapia.</p>
+                <p>Lembrem-se que este é apenas o começo da nossa jornada. O progresso pode ser gradual, e cada pequena conquista é motivo de celebração. Nossa equipe está aqui para guiar <strong>${data.childName}</strong> e apoiar a família em cada passo do caminho.</p>
+                <p><strong>Atenciosamente,</strong><br>A Equipe Terapêutica</p>
+
+                ---SEPARADOR---
+
+                **INÍCIO DAS METAS**
+                (Aqui começa a lista de metas no formato "Área | Específica | ...")
+            `;
+        }
+
+        async function callGeminiAPI(prompt) {
+            const apiKey = document.getElementById("gemini-api-key").value.trim();
+                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topP: 0.95,
+                    maxOutputTokens: 8192, 
+                }
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.json();
+                throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorBody.error.message}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                console.error("Resposta inesperada da API:", result);
+                if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    throw new Error(`O conteúdo foi bloqueado pela API. Motivo: ${result.promptFeedback.blockReason}`);
+                }
+                if (result.candidates && result.candidates[0].finishReason === 'MAX_TOKENS') {
+                     throw new Error("A resposta da API foi cortada por exceder o limite de tamanho. Tente ser mais conciso nas instruções.");
+                }
+                throw new Error("A resposta da API não continha o conteúdo esperado.");
+            }
+        }
+
+        function parseAndDisplayResults(response) {
+            const separator = '---SEPARADOR---';
+            const goalsHeader = '**INÍCIO DAS METAS**';
+            
+            const separatorIndex = response.indexOf(separator);
+            
+            let reportHtml = "<p>O relatório não pôde ser gerado pois o formato da resposta da IA foi inesperado.</p>";
+            let goalsData = "";
+
+            if (separatorIndex !== -1) {
+                reportHtml = response.substring(0, separatorIndex).trim();
+                goalsData = response.substring(separatorIndex + separator.length).replace(goalsHeader, "").trim();
+            } else {
+                reportHtml = response.trim();
+            }
+
+            document.getElementById('report-content').innerHTML = reportHtml;
+            
+            const goalsTableBody = document.getElementById('goals-table-body');
+            goalsTableBody.innerHTML = ''; 
+
+            const goalRows = goalsData.split('\n').filter(row => row.trim() && row.includes('|'));
+            
+            if (goalRows.length > 0) {
+                goalRows.forEach(rowText => {
+                    const columns = rowText.split('|').map(col => col.trim());
+                    if (columns.length === 6) {
+                        const row = `
+                            <tr class="bg-white border-b hover:bg-slate-50">
+                                <td class="px-6 py-4 font-medium text-slate-900">${columns[0]}</td>
+                                <td class="px-6 py-4">${columns[1]}</td>
+                                <td class="px-6 py-4">${columns[2]}</td>
+                                <td class="px-6 py-4">${columns[3]}</td>
+                                <td class="px-6 py-4">${columns[4]}</td>
+                                <td class="px-6 py-4">${columns[5]}</td>
+                            </tr>
+                        `;
+                        goalsTableBody.innerHTML += row;
+                    }
+                });
+            } else if (goalsData) {
+                goalsTableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-sm text-slate-600">Não foi possível analisar as metas da resposta da IA. Dados recebidos:<br><pre class="whitespace-pre-wrap text-xs">${goalsData}</pre></td></tr>`;
+            }
+
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+
+        // --- FUNÇÕES UTILITÁRIAS ---
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            let textToCopy;
+
+            if (element.tagName === 'TABLE') {
+                textToCopy = Array.from(element.querySelectorAll('tr')).map(tr => 
+                    Array.from(tr.querySelectorAll('th, td')).map(cell => cell.innerText).join('\t')
+                ).join('\n');
+            } else {
+                textToCopy = element.innerText;
+            }
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Texto copiado!");
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast-message');
+            toast.textContent = message;
+            toast.classList.remove('bg-green-500', 'bg-red-500');
+            toast.classList.add(isError ? 'bg-red-500' : 'bg-green-500');
+            
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        function startOver() {
+            window.location.reload();
+        }
+
+        function updateApiDot() {
+            const k = document.getElementById('gemini-api-key').value.trim();
+            const d = document.getElementById('apiDot');
+            d.className = 'api-dot' + (k.length > 20 ? ' ok' : k.length > 0 ? ' err' : '');
+        }
+
+    </script>
+
+</body></html>
