@@ -1125,10 +1125,12 @@ function updateDot() {
             }
 
             // Chamada API
-            async function callGeminiAPI(prompt) {
-                const apiKey = document.getElementById("gemini-api-key").value.trim();
-                if (!apiKey) { throw new Error("Insira sua chave da API Gemini no campo no topo da tela."); }
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+async function callGeminiAPI(prompt) {
+    const apiKey = document.getElementById("gemini-api-key").value.trim();
+    if (!apiKey) { throw new Error("Insira sua chave da API Gemini no campo no topo da tela."); }
+    
+    // A URL correta precisa de 'models/' antes de 'gemini-1.5-flash'
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
                 const payload = {
                     contents: [{ parts: [{ text: prompt }] }],
