@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Testes – Clínica Empathy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMPATHY – INDEX/PAINEL DE TESTES
+   Aesthetic: Reutilizando o estilo Soft Clinical Warm
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose:     #F43F5E;
+  --rose-mid: #FB7185;
+  --rose-soft:#FFE4E6;
+  --plum:     #7C3AED;
+  --plum-mid: #A78BFA;
+  --plum-soft:#EDE9FE;
+  --bg:       #FFF7F8; /* Mesmo fundo rosado suave */
+  --surface:  #FFFFFF;
+  --ink:      #1C1028;
+  --ink-mid:  #4B3A5A;
+  --ink-soft: #9181A0;
+  --border:   #EDD9F0;
+  --radius:   18px;
+  --shadow:   0 2px 16px rgba(124,58,237,.08);
+  --shadow-md:0 6px 32px rgba(124,58,237,.14);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg);
+  /* Mesma textura de fundo */
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(244,63,94,.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 90%, rgba(124,58,237,.07) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M26 26m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0' fill='%23C4B5FD' fill-opacity='0.18'/%3E%3C/svg%3E");
+  color: var(--ink);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── NAV (Idêntica) ── */
+.nav {
+  background: linear-gradient(135deg, #4C1D95 0%, #6D28D9 60%, #9D174D 100%);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 20px rgba(76,29,149,.35);
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: .3px;
+}
+
+.nav-brand-dot {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,.18);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  border: 1px solid rgba(255,255,255,.25);
+}
+
+.nav-sub {
+  color: rgba(255,255,255,.6);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── LAYOUT PRINCIPAL ── */
+.main-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  overflow: hidden;
+}
+
+/* ── SIDEBAR (Estilo Section Cards) ── */
+.sidebar {
+  background: var(--surface);
+  border-right: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.sidebar-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.sidebar-header p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* ── ITENS DE MENU (Estilo Chip Box / Generate Btn) ── */
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #FAFAFA;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  color: var(--ink-mid);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  border-color: var(--rose-mid);
+  background: #FFF0F3;
+  color: #9D174D;
+  transform: translateY(-1px);
+}
+
+/* Estado Ativo (Estilo quando checkbox está checked) */
+.nav-item.active {
+  background: linear-gradient(135deg, #FCE7F3, #EDE9FE);
+  border-color: var(--plum-mid);
+  color: var(--plum);
+  font-weight: 800;
+  box-shadow: var(--shadow);
+}
+
+.nav-item-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+/* Cores de ícone baseadas nas Seções do original */
+.nav-item-icon.blue   { background: #EFF6FF; border-color: #BFDBFE; }
+.nav-item-icon.purple { background: var(--plum-soft); border-color: var(--plum-mid); }
+
+/* ── ÁREA DE CONTEÚDO (IFRAME) ── */
+.content-area {
+  display: flex;
+  flex-direction: column;
+  background: white; /* Iframe precisa de fundo limpo */
+}
+
+#project-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Placeholder (Estilo Result Body/Placeholder) */
+.placeholder-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+  text-align: center;
+  background-color: var(--bg); /* Mantém o fundo rosado */
+}
+
+.ph-circle {
+  width: 90px; height: 90px;
+  background: linear-gradient(135deg, #F3E8FF, #FFE4E6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  border: 2px solid var(--border);
+}
+
+.placeholder-screen h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  color: var(--ink);
+}
+
+.placeholder-screen h1 span {
+  color: var(--rose);
+  font-style: italic;
+}
+
+.placeholder-screen p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVO (Mesma lógica) ── */
+@media (max-width: 768px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1.5px solid var(--border); max-height: 250px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-brand-dot">💜</div>
+    <div>
+      <div>EMPATHY</div>
+      <div class="nav-sub">Painel de Testes</div>
+    </div>
+  </div>
+</nav>
+
+<div class="main-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Ferramentas</h2>
+      <p>Selecione um arquivo abaixo para testar no GitHub Pages.</p>
+    </div>
+
+    <nav class="nav-list">
+      <a href="#" class="nav-item" onclick="loadProject('GeradorEvo.html', this)">
+        <div class="nav-item-icon blue">📝</div>
+        Gerador de Evolução
+      </a>
+
+      </nav>
+  </aside>
+
+  <main class="content-area">
+    
+    <div id="placeholder" class="placeholder-screen">
+      <div class="ph-circle">📋</div>
+      <h1>Bem-vindo ao <span>Lab</span></h1>
+      <p>Utilize o menu lateral para carregar e testar as ferramentas clínicas integradas.</p>
+    </div>
+
+    <iframe id="project-frame" style="display: none;"></iframe>
+
+  </main>
+
+</div>
+
+<script>
+  function loadProject(fileName
