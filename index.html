@@ -254,7 +254,7 @@ body {
     </div>
 
     <nav class="nav-list">
-      <a href="#" class="nav-item" onclick="loadProject('Gerador de Evolução Clínica - Empathy.html', this)">
+      <a href="#" class="nav-item" onclick="loadProject('GeradorEvo.html', this)">
         <div class="nav-item-icon blue">📝</div>
         Gerador de Evolução
       </a>
@@ -288,7 +288,7 @@ body {
 
     // 2. Carrega o arquivo no iframe
     // No GitHub Pages, ./ nome_do_arquivo funciona se estiverem na mesma pasta
-    frame.src = './GeradorEvo.html' + fileName;
+    frame.src = './' + fileName;
 
     // 3. Gerencia classe ativa (visual)
     navItems.forEach(item => item.classList.remove('active'));
